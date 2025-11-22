@@ -14,4 +14,4 @@ python.exe manage.py migrate
 ```
 
 
-# sobre a aplicação IONIC, o recomendado é rodar ela separadamente
+sobre a aplicação IONIC, o recomendado é rodar ela separadamente
