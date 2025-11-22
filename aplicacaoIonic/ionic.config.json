@@ -1,0 +1,7 @@
+{
+  "name": "TherapyApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

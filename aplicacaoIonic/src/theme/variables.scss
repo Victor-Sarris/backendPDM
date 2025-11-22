@@ -1,0 +1,21 @@
+// For information on how to create your own theme, please refer to:
+// https://ionicframework.com/docs/theming/
+/* src/theme/variables.scss */
+:root {
+  --ion-color-brand-navy: #0C0C47;
+  --ion-color-brand-navy-rgb: 12, 12, 71;
+
+  --ion-color-brand-purple: #7D2AE8;
+  --ion-color-brand-purple-rgb: 125, 42, 232;
+
+  --ion-color-brand-lilac: #C661FF;
+  --ion-color-brand-lilac-rgb: 198, 97, 255;
+
+  /* Classes auxiliares para gradientes */
+  --gradient-purple-dark: linear-gradient(180deg, #7D2AE8 0%, #5F28C2 100%);
+  --gradient-footer: linear-gradient(to bottom, #4C1D95, #5B21B6, #1E1B4B);
+}
+
+.text-purple { color: var(--ion-color-brand-purple); }
+.text-lilac { color: var(--ion-color-brand-lilac); }
+.bg-navy { background-color: var(--ion-color-brand-navy); }

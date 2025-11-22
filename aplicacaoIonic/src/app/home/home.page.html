@@ -1,0 +1,342 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <header class="headerHero">
+    <button class="buttonHero" routerLink="/role-selection">Faça Login</button>
+    <img class="appPreview" src="../../assets/icon/therapy-logo.png" alt="" />
+    <p class="mainContentHero">
+      O futuro do cuidado com a <span>saúde mental</span> está chegando.
+    </p>
+    <p class="footerContentHero">
+      O Therapy está em construção. Em breve, você terá uma plataforma completa
+      de terapia online com profissionais qualificados — de forma prática,
+      acessível e segura.
+    </p>
+    <div class="subContentHero">
+      <button class="buttonSubContent">Quero ser avisado no lançamento</button>
+      <button class="buttonSubContent2">Entrar para a lista de espera do MVP</button>
+    </div>
+    <div class="subContentHeroCredits">
+      <p>MVP em desenvolvimento</p>
+      <p>profissionais verificados</p>
+    </div>
+  </header>
+  <div class="sobreContent">
+    <h1>Sobre o Therapy</h1>
+    <p>
+      Estamos desenvolvendo o Therapy, uma plataforma de teleconsultas
+      psicológicas. Nosso MVP (versão inicial) oferecerá atendimentos online
+      agendados e plantão psicológico, permitindo que você experimente a
+      praticidade e acolhimento da terapia digital.
+    </p>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cuidado Humanizado</ion-card-title>
+        <ion-card-subtitle
+          >Profissionais qualificados focados no seu
+          bem-estar</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tecnologia Intuitiva</ion-card-title>
+        <ion-card-subtitle
+          >Interface simples e funcional para facilitar seu
+          acesso</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Segurança total</ion-card-title>
+        <ion-card-subtitle
+          >Seus dados e conversas protegidos com criptografia
+          avançada</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Comunidade de apoio</ion-card-title>
+        <ion-card-subtitle
+          >Faça parte de uma rede que valoriza a saúde mental</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+  </div>
+  <div class="funcionalidadesMVP">
+    <h1>Funcionalidades Previstas para o <span>MVP</span></h1>
+    <p>
+      Nossa versão inicial trará as funcionalidades essenciais para você começar
+      sua jornada de cuidado com a saúde mental.
+    </p>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title
+          >Sessões de terapia online via vídeo ou chat</ion-card-title
+        >
+        <ion-card-subtitle
+          >Atendimentos por videoconferência com qualidade HD e conexão estável,
+          ou conversas por chat quando preferir.</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title
+          >Plantão psicológico em horários determinados</ion-card-title
+        >
+        <ion-card-subtitle
+          >Suporte psicológico em tempo real para momentos que precisam de apoio
+          imediato.</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Agenda digital simples</ion-card-title>
+        <ion-card-subtitle
+          >Sistema intuitivo para agendar e gerenciar suas sessões de terapia
+          com facilidade.</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title
+          >Área do usuário com histórico básico de atendimentos</ion-card-title
+        >
+        <ion-card-subtitle
+          >Acompanhe seu progresso com registro das suas consultas e evolução ao
+          longo do tempo.</ion-card-subtitle
+        >
+      </ion-card-header>
+    </ion-card>
+  </div>
+
+  <div class="expectativasMVP">
+    <section class="social-proof-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge-pill-purple">
+            <ion-icon name="star-outline"></ion-icon>
+            Expectativas para o MVP
+          </div>
+          <h2 class="title-large">
+            O que nossos
+            <span class="text-purple">futuros usuários</span> esperam
+          </h2>
+          <p class="subtitle">
+            Recomendações e expectativas de clientes e psicólogos para o
+            lançamento do nosso MVP.
+          </p>
+        </div>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="4" *ngFor="let item of testimonials">
+              <div class="testimonial-card">
+                <div class="card-icon">
+                  <ion-icon [name]="item.icon"></ion-icon>
+                </div>
+                <p class="quote-text">"{{ item.quote }}"</p>
+                <div class="author-info">
+                  <img
+                    [src]="item.avatar"
+                    alt="{{ item.author }}"
+                    class="avatar"
+                  />
+                  <div class="author-details">
+                    <strong>{{ item.author }}</strong>
+                    <span>{{ item.role }}</span>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="social-banner">
+          <div class="banner-content">
+            <ion-icon name="people-outline" class="banner-icon"></ion-icon>
+            <p>
+              <strong class="text-purple"
+                >Mais de 200 pessoas já aguardam o MVP</strong
+              >
+              <span class="separator">|</span>
+              Venha ser parte dessa transformação no cuidado com a saúde mental
+              digital.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="duvidasMVP">
+    <div class="badge-pill-purple">
+      <ion-icon name="star-outline"></ion-icon>
+      Dúvidas frequentes
+    </div>
+    <h1>Dúvidas sobre o <span>MVP</span></h1>
+    <p>
+      Esclarecemos as principais questões sobre nossa fase de desenvolvimento e
+      como você pode participar.
+    </p>
+
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" lines="none">
+          <ion-label>O que é o MVP da Therapy?</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          O MVP (Produto Mínimo Viável) é a versão inicial do Therapy que
+          incluirá funcionalidades essenciais como videochamadas para sessões de
+          terapia, sistema de agendamento básico e área do usuário. É nossa
+          forma de validar o produto com usuários reais antes do lançamento
+          completo.
+        </div>
+      </ion-accordion>
+      <ion-accordion value="second">
+        <ion-item slot="header" lines="none">
+          <ion-label>Como posso participar?</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Você pode se inscrever na nossa lista de espera para o MVP ou para ser
+          notificado no lançamento oficial. Os participantes do MVP terão acesso
+          antecipado e poderão nos ajudar com feedbacks valiosos.
+        </div>
+      </ion-accordion>
+      <ion-accordion value="third">
+        <ion-item slot="header" lines="none">
+          <ion-label>O Therapy já está disponível?</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Ainda não. A plataforma está em fase final de desenvolvimento. O
+          lançamento do MVP está previsto para breve. Inscreva-se para ser um
+          dos primeiros a saber!
+        </div>
+      </ion-accordion>
+      <ion-accordion value="fourth">
+        <ion-item slot="header" lines="none">
+          <ion-label
+            >Os atendimentos são feitos por profissionais
+            credenciados?</ion-label
+          >
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Sim. A segurança e a qualidade são nossas prioridades. Todos os
+          psicólogos da plataforma passam por um rigoroso processo de
+          verificação e devem possuir registro ativo no Conselho Regional de
+          Psicologia (CRP).
+        </div>
+      </ion-accordion>
+      <ion-accordion value="fifth">
+        <ion-item slot="header" lines="none">
+          <ion-label>Como será a garantia de privacidade?</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Levamos sua privacidade a sério. Todas as comunicações na plataforma
+          serão criptografadas de ponta a ponta, e seguimos a LGPD para garantir
+          a segurança e confidencialidade das suas informações.
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <div class="popUpFooter">
+      <div class="finalCTA-container">
+        <div class="finalCTA-card">
+          <h1>Estamos quase prontos para abrir as portas do Therapy.</h1>
+          <p class="cta-subtitle">
+            Inscreva-se para ser um dos primeiros a experimentar nossa
+            plataforma de terapia online e faça parte da revolução no cuidado
+            com a saúde mental.
+          </p>
+
+          <div class="cta-info-grid">
+            <div class="glass-card">
+              <h3>Acesso prioritário ao MVP</h3>
+              <p>
+                Seja um dos primeiros a testar e ajude a moldar a plataforma.
+              </p>
+            </div>
+
+            <div class="glass-card">
+              <h3>Notificação de lançamento</h3>
+              <p>Avise-me quando a versão completa estiver no ar.</p>
+            </div>
+          </div>
+
+          <div class="cta-buttons">
+            <button class="btn-white-pill">
+              Entrar na lista de espera
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </button>
+
+            <button class="btn-outline-pill">
+              Quero ser avisado no lançamento
+            </button>
+          </div>
+
+          <p class="cta-footer-text">
+            Mais de 100 pessoas já manifestaram interesse • Seja você também
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-container">
+      
+      <div class="topFooter">
+        <div class="logo-container">
+          <div class="logo-icon-box">
+            <ion-icon name="heart"></ion-icon>
+          </div>
+          <h3>Therapy</h3>
+        </div>
+        <p class="footer-subtitle">Therapy - Plataforma em construção | Versão MVP em breve</p>
+      </div>
+
+      <div class="contentContact">
+        <a href="mailto:contato@therapy.com.br" class="contact-item">
+          <ion-icon name="mail-outline"></ion-icon>
+          <span>therapy.up2024@gmail.com</span>
+        </a>
+        <a href="https://wa.me/5589994498928" target="_blank" class="contact-item">
+          <ion-icon name="call-outline"></ion-icon>
+          <span>(89) 99449-8928</span>
+        </a>
+      </div>
+
+      <div class="bottomFooter">
+        <p class="copyright">© 2025 Therapy. Todos os direitos reservados.</p>
+        <div class="footer-links">
+          <p>Política de Privacidade</p>
+          <p>Termos de Uso</p>
+          <p>Contato</p>
+          <p>Sobre</p>
+        </div>
+      </div>
+
+      <div class="messageFooter">
+        <div class="mission-header">
+          <ion-icon name="globe-outline"></ion-icon>
+          <h3>Nossa missão</h3>
+        </div>
+        <p>Revolucionar o acesso à saúde mental através da tecnologia. Nossa missão é tornar o cuidado psicológico mais acessível, prático e acolhedor para todos.</p>
+      </div>
+
+    </div>
+  </footer>
+</ion-content>

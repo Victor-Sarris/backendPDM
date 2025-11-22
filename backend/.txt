@@ -1,0 +1,4 @@
+sequecia de passos para ativar o ambiente de desenvolvimento:
+
+1: 'py -m venv venv # criar' um ambiente de desenvolvimento
+2: '.venv/Scripts/activate'  # ativar o ambiente
