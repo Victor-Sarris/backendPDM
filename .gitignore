@@ -1,0 +1,28 @@
+# --- GERAL (Sistema Operacional) ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- FRONTEND (Ionic/Angular - Pasta aplicacaoIonic) ---
+aplicacaoIonic/node_modules/
+
+# Builds de produção
+aplicacaoIonic/www/
+aplicacaoIonic/dist/
+
+# Cache e configurações locais
+aplicacaoIonic/.angular/
+aplicacaoIonic/.ionic/
+
+# --- BACKEND (Django/Python - Pasta backend) ---
+backend/venv/
+backend/projeto/venv/
+*.env
+
+
+__pycache__/
+*.pyc
+
+*.sqlite3
+db.sqlite3
