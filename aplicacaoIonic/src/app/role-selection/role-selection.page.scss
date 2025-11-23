@@ -1,0 +1,136 @@
+
+ion-content {
+  --background: #0c0c47; 
+}
+
+.page-wrapper {
+  min-height: 100%;
+  width: 100%;
+  background: radial-gradient(circle at top center, #1a1a5e 0%, #05051f 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
+  overflow-y: auto;
+}
+
+// --- Header com Logo ---
+.top-header {
+  width: 100%;
+  padding-top: 10px;
+  margin-bottom: 40px;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 50px;
+
+    .logo-icon {
+      color: var(--ion-color-brand-purple, #7D2AE8);
+      font-size: 24px;
+    }
+
+    span {
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+}
+
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.text-intro {
+  text-align: center;
+  margin-bottom: 40px;
+
+  h1 {
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #b3b3b3;
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap; 
+
+  @media (min-width: 768px) {
+    flex-direction: row; 
+  }
+  
+  flex-direction: row; 
+}
+
+// --- Estilo dos Cards (Glassmorphism) ---
+.role-card {
+  background: rgba(255, 255, 255, 0.03); 
+  backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  padding: 30px 20px;
+  border-radius: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  
+  width: 100%;
+  max-width: 300px; 
+  min-height: 250px;
+  
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+
+
+  &:active, &:hover {
+    transform: translateY(-5px);
+    border-color: var(--ion-color-brand-purple, #7D2AE8);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .image-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    img {
+      width: 100%;
+      max-width: 180px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.3));
+    }
+  }
+
+  p {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+}

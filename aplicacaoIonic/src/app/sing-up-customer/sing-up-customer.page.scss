@@ -1,0 +1,147 @@
+ion-content {
+  --background: radial-gradient(circle at top center, #1a1a5e 0%, #05051f 100%) no-repeat center center / cover;
+}
+
+.page-wrapper {
+  min-height: 100%;
+  width: 100%;
+  background: trnsparent;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+// --- Header ---
+.top-header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  padding-top: 10px;
+  margin-bottom: 30px;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      width: 32px; 
+    }
+
+    span {
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+
+  .top-nav {
+    display: flex;
+    gap: 20px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+        color: var(--ion-color-brand-lilac, #C661FF);
+      }
+    }
+  }
+}
+
+// --- Centralização ---
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 40px; 
+  padding-top: 60px;
+}
+
+// --- Card de Cadastro ---
+.signup-card {
+  background: #281A41;
+  background: rgba(40, 26, 65, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 500px; 
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  h2 {
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+}
+
+// --- Estilo dos Inputs (Box Style) ---
+.input-box {
+  --background: rgba(255, 255, 255, 0.1); 
+  --color: white;
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  --border-radius: 8px;
+  --padding-start: 15px;
+  
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+
+  // Ajuste do Label Flutuante
+  ion-input, ion-select {
+    --highlight-color-focused: var(--ion-color-brand-lilac, #C661FF);
+  }
+  
+  // Ícone de olho na senha
+  ion-icon {
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 10px;
+  }
+}
+
+// --- Botão ---
+.submit-btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  --background: #6D7080; 
+  //cor da marca : var(--ion-color-brand-purple)
+  
+  --border-radius: 8px;
+  --color: white;
+  font-weight: 600;
+  height: 50px;
+  font-size: 16px;
+}
+
+// --- Footer ---
+.footer-prompt {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+
+  a {
+    color: var(--ion-color-brand-lilac, #C661FF);
+    text-decoration: none;
+    font-weight: 600;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

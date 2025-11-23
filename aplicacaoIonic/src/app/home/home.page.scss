@@ -16,6 +16,11 @@ ion-content {
 
   text-align: center; 
   padding: 20px; 
+
+  & button{
+    text-decoration: none;
+    background-color: transparent;
+  }
 }
 
 .buttonHero {
@@ -43,7 +48,7 @@ ion-content {
   width: 300px;
   height: 300px;
   object-fit: contain;
-  animation: float 6s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
 .footerContentHero {
@@ -93,16 +98,24 @@ ion-content {
   padding-bottom: 40px
 
   & h1 {
-    color: black;
+    color: rgb(191, 23, 23);
+  }
+
+  & h1{
+    color: rgb(0, 0, 0);
     text-align: center;
     padding: 20px;
     font-weight: bold;
   }
 
+  & span{
+    color: #C661FF;
+  }
+
   & p {
     color: black;
     text-align: justify;
-    padding: 20px;
+    padding: 30px;
   }
 
   ion-card {
@@ -139,7 +152,7 @@ ion-content {
 
   & p {
     padding: 20px;
-    text-align: justify;
+    text-align: center;
   }
 
   & ion-card {

@@ -23,7 +23,7 @@ import {
   IonItem,
   IonLabel,
   IonRouterOutlet,
-  IonRouterLink
+  IonRouterLink,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -43,19 +43,13 @@ import {
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
-    IonFabList,
     IonGrid,
     IonRow,
     IonCol,
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
-    IonButton,
     IonCard,
-    IonCardContent,
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
