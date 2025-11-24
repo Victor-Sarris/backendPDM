@@ -1,0 +1,249 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="content-menu">
+    <ion-list lines="none">
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        <ion-label>Outros Especialistas</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="videocam-outline"></ion-icon>
+        <ion-label>Meet</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="time-outline"></ion-icon>
+        <ion-label>Históricos</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="calendar-outline"></ion-icon>
+        <ion-label>Agendas</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+        <ion-label>Mensagens</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
+        <ion-label>Ajustes</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item logout-item">
+        <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
+        <ion-label color="danger" routerLink="/">Sair da Conta</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Lista de Especialistas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="bg-gray">
+    <div class="container-width ion-padding">
+      <div class="search-section">
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          (ionInput)="applyFilters()"
+          placeholder="Buscar por nome, especialidade..."
+          class="custom-search"
+        >
+        </ion-searchbar>
+
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="12" size-md="4">
+              <ion-select
+                label="Especialidade"
+                label-placement="floating"
+                fill="outline"
+                [(ngModel)]="filterSpecialty"
+                (ionChange)="applyFilters()"
+              >
+                <ion-select-option value="">Todas</ion-select-option>
+                <ion-select-option value="psicologo"
+                  >Psicólogo</ion-select-option
+                >
+                <ion-select-option value="psicanalista"
+                  >Psicanalista</ion-select-option
+                >
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" size-md="4">
+              <ion-select
+                label="Localização"
+                label-placement="floating"
+                fill="outline"
+                [(ngModel)]="filterLocation"
+                (ionChange)="applyFilters()"
+              >
+                <ion-select-option value="">Todas</ion-select-option>
+                <ion-select-option value="floriano">Floriano</ion-select-option>
+                <ion-select-option value="teresina">Teresina</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" size-md="4">
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="danger"
+                (click)="clearFilters()"
+                class="full-height-btn"
+              >
+                <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+                Limpar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="specialists-list">
+        <ion-card
+          *ngFor="let spec of filteredList"
+          class="specialist-card animate-fade"
+        >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" size-lg="5" class="profile-col">
+                <div class="profile-header">
+                  <ion-avatar class="profile-pic">
+                    <img [src]="spec.image" alt="Foto perfil" />
+                  </ion-avatar>
+                  <div class="header-text">
+                    <ion-badge color="primary" *ngIf="spec.isNew" class="mb-1"
+                      >PERFIL NOVO</ion-badge
+                    >
+                    <h2 class="name">{{ spec.name }}</h2>
+                    <p class="specialty">{{ spec.title }}</p>
+                  </div>
+                </div>
+
+                <div class="rating-row">
+                  <ion-icon name="star" color="warning"></ion-icon>
+                  <span>5.0 ({{ spec.reviews }} opiniões)</span>
+                </div>
+
+                <p class="info-text">CRP: {{ spec.crp }}</p>
+                <p class="info-text">
+                  <ion-icon name="location-outline"></ion-icon> {{ spec.location
+                  }}
+                </p>
+                <ion-badge color="light" class="tele-badge"
+                  >Teleconsulta</ion-badge
+                >
+
+                <p class="price">R$ {{ spec.price }}</p>
+                <p class="desc">{{ spec.description }}</p>
+
+                <ion-button
+                  expand="block"
+                  color="primary"
+                  class="ion-margin-top"
+                  (click)="openBooking(spec)"
+                >
+                  Agendar Consulta
+                  <ion-icon name="arrow-forward" slot="end"></ion-icon>
+                </ion-button>
+              </ion-col>
+
+              <ion-col size="12" size-lg="7">
+                <div class="schedule-box">
+                  <div class="schedule-header">
+                    <div
+                      *ngFor="let day of spec.schedule"
+                      class="schedule-day-title"
+                    >
+                      <strong>{{ day.day }}</strong><br /><small
+                        >{{ day.date }}</small
+                      >
+                    </div>
+                  </div>
+                  <div class="schedule-grid">
+                    <div class="schedule-col" *ngFor="let day of spec.schedule">
+                      <ng-container *ngIf="day.times.length > 0; else noTimes">
+                        <ion-button
+                          *ngFor="let time of day.times"
+                          size="small"
+                          fill="outline"
+                          class="time-btn"
+                        >
+                          {{ time }}
+                        </ion-button>
+                      </ng-container>
+                      <ng-template #noTimes
+                        ><span class="dash">-</span></ng-template
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="topics ion-margin-top">
+                  <p class="topics-title">Temática</p>
+                  <div class="chips-container">
+                    <ion-chip *ngFor="let topic of spec.topics" color="primary">
+                      {{ topic }}
+                    </ion-chip>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </div>
+    </div>
+
+    <ion-modal
+      [isOpen]="isModalOpen"
+      (didDismiss)="isModalOpen = false"
+      [initialBreakpoint]="0.5"
+      [breakpoints]="[0, 0.5, 0.8]"
+    >
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Confirmar Agendamento</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="isModalOpen = false">Fechar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <div *ngIf="selectedSpec" class="ion-text-center">
+            <ion-avatar class="modal-avatar">
+              <img [src]="selectedSpec.image" />
+            </ion-avatar>
+            <h2>{{ selectedSpec.name }}</h2>
+            <p class="ion-margin-bottom">{{ selectedSpec.title }}</p>
+
+            <ion-card color="light" class="ion-padding">
+              <h3>Valor da Consulta</h3>
+              <h1 class="price-modal">R$ {{ selectedSpec.price }},00</h1>
+              <p>Pagamento via PIX</p>
+            </ion-card>
+
+            <ion-button expand="block" class="ion-margin-top" size="large"
+              >Confirmar e Pagar</ion-button
+            >
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </ion-content>
+</div>

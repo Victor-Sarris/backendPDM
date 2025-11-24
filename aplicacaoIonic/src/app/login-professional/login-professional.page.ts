@@ -8,7 +8,8 @@ import {
   IonInput,
   IonCheckbox,
   IonButton,
-  IonRouterLinkWithHref, IonRouterLink
+  IonRouterLinkWithHref,
+  IonRouterLink,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { heart, personOutline, lockClosedOutline } from 'ionicons/icons';
@@ -28,7 +29,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     IonInput,
     IonCheckbox,
     IonButton,
-    RouterLink
+    RouterLink,
   ],
 })
 export class LoginProfessionalPage implements OnInit {

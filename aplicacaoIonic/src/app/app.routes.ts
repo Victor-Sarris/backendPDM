@@ -25,4 +25,12 @@ export const routes: Routes = [
     path: 'sing-up-professional',
     loadComponent: () => import('./sing-up-professional/sing-up-professional.page').then( m => m.SingUpProfessionalPage)
   },
+  {
+    path: 'professional-dash-board',
+    loadComponent: () => import('./professional-dash-board/professional-dash-board.page').then( m => m.ProfessionalDashBoardPage)
+  },
+  {
+    path: 'customer-dash-board',
+    loadComponent: () => import('./customer-dash-board/customer-dash-board.page').then( m => m.CustomerDashBoardPage)
+  },
 ];
