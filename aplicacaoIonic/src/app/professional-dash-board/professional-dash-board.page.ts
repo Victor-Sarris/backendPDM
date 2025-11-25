@@ -79,8 +79,6 @@ interface Patient {
     IonLabel,
     IonIcon,
     IonAvatar,
-    IonBadge,
-    IonButton,
     IonMenu,
     IonRouterLink,
     RouterLink,
