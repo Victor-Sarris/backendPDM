@@ -5,98 +5,149 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import User
-from .serializers import UserSerializers
+from .models import Customer, Professional
+from .serializers import CustomerSerializer, ProfessionalSerializer
 
 import json
 
 
-
+# ----------------------- API VIEW PARA O CLIENTE -----------------------
 @api_view(['GET'])
-def get_users(request):
+def get_customer(request):
     if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializers(users, many=True)
+        customers = Customer.objects.all()
+        serializer = CustomerSerializer(customers, many=True)
         
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT'])
-def get_by_nick(request, nick):
+@api_view(['GET', 'POST'])
+def get_customer_by_cpf(request, cpf):
     try:
-        user = User.objects.get(pk=nick)
-    except:
+        customer = Customer.objects.get(pk=cpf)
+    except: 
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
     if request.method == 'GET':
-        serializer = UserSerializers(user)
+        serializer = CustomerSerializer(customer)
         return Response(serializer.data)
-    
     if request.method == 'POST':
-        serializer = UserSerializers(user, data=request.data)
+        serializer = CustomerSerializer(customer, data=request.data)
         
         if serializer.is_valid:
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(status=status.HTTP_202_ACCEPTED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-# CRUD da massa
+        
+# CRUD DO CLIENTE
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def user_manager(request):
+def customer_manager(request):
     
-    # ACESSOS
+    # Acessos
     if request.method == 'GET':
         try:
-            if request.GET['user']:
-                user_nickname = request.GET['user']
+            if request.GET['customer']:
+                customer_name = request.GET['customer']
                 try:
-                    user = User.objects.get(pk=user_nickname)
+                   customer = Customer.objects.get(customer_name)
                 except:
-                    return Response(status=status.HTTP_404_NOT_FOUND)
-                serializers = UserSerializers(user)
+                   return Response(status=status.HTTP_404_NOT_FOUND)
+                serializers = CustomerSerializer(customer)
                 return Response(serializers.data)
-            
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-    # criando dados
+        
+    # criando um novo cliente
     if request.method == 'POST':
-        new_user = request.data
-        serializers = UserSerializers(data=new_user)
+        new_customer = request.data
+        serializers = CustomerSerializer(data=new_customer)
         
         if serializers.is_valid():
             serializers.save()
-            return Response(serializers.data, status=status.HTTP_201_CREATED)
-        
+            return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    # editando parametros pelo request.data
+    # editando os dados de um cliente
     if request.method == 'PUT':
-        nickname = request.data['user_nickname']
-        
+        customer_cpf = request.data['customer_cpf']
         try:
-            update_user = User.objects.get(pk=nickname)
+            update_costumer = Customer.objects.get(pk=customer_cpf)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
         print(f'Data = {request.data}')
         
-        serializers = UserSerializers(update_user, data= request.data)
+        serializers = CustomerSerializer(update_costumer, data=request.data)
         
         if serializers.is_valid():
             serializers.save()
             return Response(status=status.HTTP_202_ACCEPTED)
-        
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    # DELETAR DADOS (DELETE)
+    # Deletar dados do cliente
     if request.method == 'DELETE':
-        try:
-            user_to_delete = User.objects.get(pk=request.data['user_nickname'])
-            user_to_delete.delete() # aqui ele deleta o usuario 
+        try: 
+            customer_to_delete = Customer.objects.get(pk=request.data['customer_cpf'])
+            customer_to_delete.delete()
             return Response(status=status.HTTP_202_ACCEPTED)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+# ----------------------- API VIEW PARA O PROFISSIONAL -----------------------
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def professional_manager(request):
+    # Acessos (GET)
+    if request.method == 'GET':
+        try:
+            if request.GET.get('professional'): 
+                professional_cpf = request.GET['professional']
+                try:
+                   professional = Professional.objects.get(pk=professional_cpf)
+                   serializer = ProfessionalSerializer(professional)
+                   return Response(serializer.data)
+                except Professional.DoesNotExist:
+                   return Response(status=status.HTTP_404_NOT_FOUND)
+            else:
+                professionals = Professional.objects.all()
+                serializer = ProfessionalSerializer(professionals, many=True)
+                return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+    # Criando um novo profissional (POST)
+    if request.method == 'POST':
+        new_professional = request.data
+        serializer = ProfessionalSerializer(data=new_professional)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'PUT':
+        professional_cpf = request.data['professional_cpf']
+        try:
+            update_professional = Professional.objects.get(pk=professional_cpf)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        print(f'Data = {request.data}')
+        
+        serializer = ProfessionalSerializer(update_professional, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+    if request.method == 'DELETE':
+        try:
+            professional_to_delete = Professional.objects.get(pk=request.data['professional_cpf'])
+            professional_to_delete.delete()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)

@@ -3,7 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path("", views.get_users, name='get_all_users'),
-    path("user/<str:nick>", views.get_by_nick),
-    path("data/", views.user_manager),
+    path('admin/', admin.site.urls),
+    path('api/customer/', views.customer_manager, name='customer_manager'),
+    path('api/professional/', views.professional_manager, name='professional_manager')
 ]
