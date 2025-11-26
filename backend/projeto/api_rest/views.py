@@ -129,6 +129,7 @@ def professional_manager(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    # Editando dados do profissional (PUT))
     if request.method == 'PUT':
         professional_cpf = request.data['professional_cpf']
         try:
@@ -143,7 +144,8 @@ def professional_manager(request):
             serializer.save()
             return Response(status=status.HTTP_202_ACCEPTED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+    
+    # Deletar dados do profissional
     if request.method == 'DELETE':
         try:
             professional_to_delete = Professional.objects.get(pk=request.data['professional_cpf'])
