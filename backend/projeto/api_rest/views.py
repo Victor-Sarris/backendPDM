@@ -4,12 +4,37 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 from .models import Customer, Professional
 from .serializers import CustomerSerializer, ProfessionalSerializer
 
 import json
 
+class LoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request':request})
+        serializer = serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        
+        token, created = Token.objects.get_or_create(user='user')
+        
+        response_data = {
+            'token': token.key,
+            'user_id': user.pk,
+            'user_type': None,
+            'profile_id': None
+        }
+        
+        if hasattr(user, 'professional_profile'):
+            response_data['user_type'] = 'PROFESSIONAL'
+            response_data['profile_id'] = user.professional_profile.id
+        elif hasattr(user, 'customer_profile'):
+            response_data['user_type'] = 'CUSTOMER'
+            response_data['profile_id'] = user.customer_profile.customer_cpf
+               
+        return Response(response_data)
 
 # ----------------------- API VIEW PARA O CLIENTE -----------------------
 @api_view(['GET'])
