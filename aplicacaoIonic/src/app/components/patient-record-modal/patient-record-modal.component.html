@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ mode === 'create' ? 'Novo Prontuário' : 'Editar Prontuário' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-container">
+    
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-input label="Nome Completo" labelPlacement="floating" [(ngModel)]="formData.nome" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-input label="CPF" labelPlacement="floating" [(ngModel)]="formData.cpf" type="text" maxlength="14" placeholder="000.000.000-00"></ion-input>
+    </ion-item>
+
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-select label="Status" labelPlacement="floating" [(ngModel)]="formData.status">
+        <ion-select-option value="Ativo">Ativo</ion-select-option>
+        <ion-select-option value="Pendente">Pendente</ion-select-option>
+        <ion-select-option value="Inativo">Inativo</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none" class="ion-margin-bottom">
+      <ion-label>Início da Terapia</ion-label>
+      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="datetime" 
+            presentation="date" 
+            [(ngModel)]="formData.inicioTerapia"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" color="primary" class="ion-margin" (click)="save()">
+      Salvar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

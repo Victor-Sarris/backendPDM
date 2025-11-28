@@ -1,23 +1,20 @@
 ion-content {
-  --background: #ffffff; 
+  --background: #ffffff;
 }
 
 .headerHero {
   background-color: #0c0c47;
   position: relative;
-
-  
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-
   min-height: 100%;
+  text-align: center;
+  padding: 20px;
+  padding-top: 100px;
 
-  text-align: center; 
-  padding: 20px; 
-
-  & button{
+  & button {
     text-decoration: none;
     background-color: transparent;
   }
@@ -25,6 +22,7 @@ ion-content {
 
 .buttonHero {
   font-size: 15px;
+  padding-top: 30px;
   gap: 20px;
   color: white;
   background-color: #25255a;
@@ -68,23 +66,22 @@ ion-content {
   padding-top: 30px;
   padding-bottom: 30px;
 
-  & .buttonSubContent{
+  & .buttonSubContent {
     background-color: #8b3dff;
     color: white;
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.493); 
+    border: 1px solid rgba(255, 255, 255, 0.493);
   }
 
-  & .buttonSubContent2{
-    background-color: #1B1B53;
+  & .buttonSubContent2 {
+    background-color: #1b1b53;
     color: white;
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.493); 
+    border: 1px solid rgba(255, 255, 255, 0.493);
   }
 }
-
 
 .subContentHeroCredits {
   display: flex;
@@ -95,21 +92,19 @@ ion-content {
 .sobreContent {
   background-color: white;
   margin-bottom: 0;
-  padding-bottom: 40px
-
-  & h1 {
+  padding-bottom: 40px & h1 {
     color: rgb(191, 23, 23);
   }
 
-  & h1{
+  & h1 {
     color: rgb(0, 0, 0);
     text-align: center;
     padding: 20px;
     font-weight: bold;
   }
 
-  & span{
-    color: #C661FF;
+  & span {
+    color: #c661ff;
   }
 
   & p {
@@ -119,13 +114,24 @@ ion-content {
   }
 
   ion-card {
-    background-color: #ffff;
-    border: white;
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: 12px;
+    background-color: var(--ion-color-step-50, #ffffff); // Garante branco claro
+    border: none;
+    border-radius: 16px;
+    padding: 15px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(125, 42, 232, 0.2);
+    }
 
     & ion-card-title {
-      color: black;
+      color: #111;
+      font-weight: 700;
     }
 
     & ion-card-subtitle {
@@ -155,17 +161,49 @@ ion-content {
     text-align: center;
   }
 
+  .badge-pill-purple {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background-color: #f3e8ff;
+    border: 1px solid #e9d5ff;
+    color: var(--ion-color-brand-purple);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    margin: 0 auto 1.5rem auto;
+
+    & ion-icon {
+      font-size: 1.1rem;
+    }
+  }
+
   & ion-card {
     background-color: #201d57;
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: 12px;
+    border: none;
+    border-radius: 16px;
+    padding: 15px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(125, 42, 232, 0.2);
+    }
 
     & ion-card-title {
       color: white;
+      font-weight: 700;
     }
 
     & ion-card-subtitle {
-      color: white;
+      color: rgb(199, 199, 199);
     }
   }
 }
@@ -316,7 +354,7 @@ ion-content {
 
 .duvidasMVP {
   background-color: #ffffff;
-  padding: 4rem 1.5rem; 
+  padding: 4rem 1.5rem;
 
   .badge-pill-purple {
     display: flex;
@@ -356,26 +394,23 @@ ion-content {
     line-height: 1.6;
   }
 
-
   ion-accordion-group {
-    max-width: 800px; 
+    max-width: 800px;
     margin: 0 auto;
   }
 
   ion-accordion {
-    background-color: #f9f5ff; 
-    border: 1px solid #e9d5ff; 
-    border-radius: 16px; 
-    margin-bottom: 16px; 
+    background-color: #f9f5ff;
+    border: 1px solid #e9d5ff;
+    border-radius: 16px;
+    margin-bottom: 16px;
 
     overflow: hidden;
 
     transition: box-shadow 0.3s ease;
 
     &:hover {
-      border-color: var(
-        --ion-color-brand-purple
-      ); 
+      border-color: var(--ion-color-brand-purple);
     }
 
     &.accordion-expanded {
@@ -397,12 +432,12 @@ ion-content {
     ion-label {
       font-weight: 700 !important;
       font-size: 1.1rem;
-      color: #000000; 
-      white-space: normal; 
+      color: #000000;
+      white-space: normal;
     }
 
     ion-icon {
-      color: var(--ion-color-brand-purple); 
+      color: var(--ion-color-brand-purple);
       font-size: 1.5rem;
     }
 
@@ -413,10 +448,10 @@ ion-content {
 
   div[slot="content"] {
     background-color: transparent;
-    padding: 0 24px 24px 24px; 
+    padding: 0 24px 24px 24px;
     font-size: 1rem;
     line-height: 1.6;
-    color: #4b5563; 
+    color: #4b5563;
   }
 }
 
@@ -429,9 +464,9 @@ ion-content {
 
   .finalCTA-container {
     background-color: #ffffff;
-    
-    padding: 2rem 1rem 5rem 1rem; 
-    
+
+    padding: 2rem 1rem 5rem 1rem;
+
     display: flex;
     justify-content: center;
   }
@@ -441,16 +476,16 @@ ion-content {
     width: 100%;
     max-width: 1100px;
     border-radius: 40px;
-    
-    padding: 3rem 2.5rem; 
-    
+
+    padding: 3rem 2.5rem;
+
     text-align: center;
     color: white;
     position: relative;
     overflow: hidden;
 
     h1 {
-      font-size: 1.75rem; 
+      font-size: 1.75rem;
       font-weight: 800;
       line-height: 1.3;
       margin-bottom: 1.5rem;
@@ -468,8 +503,8 @@ ion-content {
     }
 
     @media (min-width: 768px) {
-      padding: 4rem 4rem; 
-      
+      padding: 4rem 4rem;
+
       h1 {
         font-size: 2.5rem;
         line-height: 1.2;
@@ -488,7 +523,7 @@ ion-content {
       grid-template-columns: 1fr 1fr;
     }
   }
-  
+
   .glass-card {
     background-color: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -588,9 +623,8 @@ ion-content {
   }
 }
 
-
 footer {
-  background: linear-gradient(to bottom, #4C1D95, #5B21B6, #1E1B4B);
+  background: linear-gradient(to bottom, #4c1d95, #5b21b6, #1e1b4b);
   color: white;
   padding: 5rem 1.5rem 3rem 1.5rem; /* Mais espaço em cima e embaixo */
 
@@ -618,7 +652,7 @@ footer {
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         ion-icon {
           font-size: 1.5rem;
           color: white;
@@ -633,7 +667,7 @@ footer {
     }
 
     .footer-subtitle {
-      color: #d1d5db; 
+      color: #d1d5db;
       font-size: 1rem;
       margin: 0;
     }
@@ -648,7 +682,7 @@ footer {
     gap: 1.5rem;
     margin-bottom: 3rem;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       flex-direction: row;
     }
 
@@ -659,7 +693,7 @@ footer {
       text-decoration: none;
       color: #d1d5db;
       transition: color 0.2s;
-      
+
       ion-icon {
         font-size: 1.2rem;
       }
@@ -680,7 +714,7 @@ footer {
     gap: 1.5rem;
     text-align: center;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       flex-direction: row;
       justify-content: space-between;
       text-align: left;
@@ -688,7 +722,7 @@ footer {
 
     .copyright {
       font-size: 0.85rem;
-      color: #9ca3af; 
+      color: #9ca3af;
       margin: 0;
     }
 
@@ -713,8 +747,8 @@ footer {
   }
 
   .messageFooter {
-    background-color: rgba(255, 255, 255, 0.1); 
-    border: 1px solid rgba(255, 255, 255, 0.2); 
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     padding: 1.5rem;
     text-align: center;

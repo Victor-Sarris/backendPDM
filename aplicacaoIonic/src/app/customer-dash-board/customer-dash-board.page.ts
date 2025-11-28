@@ -87,8 +87,6 @@ interface Specialist {
     IonBadge,
     IonChip,
     IonModal,
-    IonFooter,
-    IonApp,
     IonMenu,
     IonList,
     IonItem,

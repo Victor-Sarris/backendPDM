@@ -33,4 +33,8 @@ export const routes: Routes = [
     path: 'customer-dash-board',
     loadComponent: () => import('./customer-dash-board/customer-dash-board.page').then( m => m.CustomerDashBoardPage)
   },
+  {
+    path: 'gestaoprontuarios',
+    loadComponent: () => import('./gestaoprontuarios/gestaoprontuarios.page').then( m => m.GestaoprontuariosPage)
+  },
 ];
