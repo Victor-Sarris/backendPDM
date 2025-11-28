@@ -102,9 +102,8 @@ export class ProfessionalDashBoardPage implements OnInit {
     },
   ];
 
- 
   calendarDays: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
-  currentDay = 6; 
+  currentDay = 6;
 
   constructor() {
     addIcons({

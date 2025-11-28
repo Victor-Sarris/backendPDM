@@ -1,0 +1,214 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu Profissional</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="content-menu">
+    <ion-list lines="none">
+      <ion-item
+        button
+        detail="false"
+        class="menu-item"
+        routerLink="/professional-dash-board"
+      >
+        <ion-icon slot="start" name="grid-outline"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        <ion-label>Pacientes</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="videocam-outline"></ion-icon>
+        <ion-label>Meet</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item selected">
+        <ion-icon slot="start" name="briefcase-outline"></ion-icon>
+        <ion-label>Gestão de Prontuários</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="time-outline"></ion-icon>
+        <ion-label>Histórico</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="calendar-outline"></ion-icon>
+        <ion-label>Agenda</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+        <ion-label>Mensagens</ion-label>
+      </ion-item>
+
+      <ion-item button detail="false" class="menu-item">
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
+        <ion-label>Ajustes</ion-label>
+      </ion-item>
+
+      <ion-item
+        button
+        detail="false"
+        class="menu-item logout-item"
+        routerLink="/"
+      >
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-label color="danger">Sair da Conta</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header class="ion-no-border">
+    <ion-toolbar color="white">
+      <ion-buttons slot="start">
+        <ion-menu-button color="primary"></ion-menu-button>
+      </ion-buttons>
+      <ion-title color="dark">Gestão de Prontuários</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="bg-gray">
+    <div class="container-width ion-padding">
+      <div class="section-header">
+        <div>
+          <h1>Prontuários</h1>
+          <p>Visualize e gerencie os prontuários dos seus pacientes.</p>
+        </div>
+        <ion-button color="primary" (click)="openCreateModal()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Preencher Prontuário
+        </ion-button>
+      </div>
+
+      <div class="search-container">
+        <ion-searchbar
+          placeholder="Buscar por nome ou CPF..."
+          (ionInput)="handleSearch($event)"
+          class="custom-search"
+        >
+        </ion-searchbar>
+      </div>
+
+      <ion-card class="table-card">
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>CPF</th>
+                <th>Início da Terapia</th>
+                <th>Status</th>
+                <th class="ion-text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let paciente of paginatedPatients">
+                <td>
+                  <div class="patient-info">
+                    <ion-avatar class="small-avatar">
+                      <ion-icon name="person-outline"></ion-icon>
+                    </ion-avatar>
+                    <span class="patient-name">{{ paciente.nome }}</span>
+                  </div>
+                </td>
+                <td>{{ paciente.cpf }}</td>
+                <td>{{ paciente.inicioTerapia }}</td>
+                <td>
+                  <ion-badge [color]="getStatusColor(paciente.status)">
+                    {{ paciente.status }}
+                  </ion-badge>
+                </td>
+                <td class="ion-text-center">
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    color="primary"
+                    (click)="handleView(paciente)"
+                    title="Visualizar"
+                  >
+                    <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    color="secondary"
+                    (click)="handleEdit(paciente.id)"
+                    title="Editar"
+                  >
+                    <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    color="danger"
+                    (click)="presentDeleteAlert(paciente)"
+                    title="Excluir"
+                  >
+                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-button>
+                </td>
+              </tr>
+              <tr *ngIf="paginatedPatients.length === 0">
+                <td colspan="5" class="ion-text-center no-data">
+                  Nenhum paciente encontrado.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination-footer" *ngIf="totalPages > 0">
+          <div class="pagination-info">
+            Mostrando <strong>{{ startResult }}</strong> a
+            <strong>{{ endResult }}</strong> de
+            <strong>{{ filteredPatients.length }}</strong> resultados
+          </div>
+          <div class="pagination-controls">
+            <ion-button
+              fill="outline"
+              size="small"
+              (click)="prevPage()"
+              [disabled]="currentPage === 1"
+            >
+              <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+
+            <div class="page-numbers">
+              <span class="current-page"
+                >Página {{ currentPage }} de {{ totalPages }}</span
+              >
+            </div>
+
+            <ion-button
+              fill="outline"
+              size="small"
+              (click)="nextPage()"
+              [disabled]="currentPage === totalPages"
+            >
+              <ion-icon
+                slot="icon-only"
+                name="chevron-forward-outline"
+              ></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card>
+    </div>
+
+    <ion-alert
+      [isOpen]="isDeleteAlertOpen"
+      header="Confirmar Exclusão"
+      message="Tem certeza que deseja excluir este prontuário? Esta ação não pode ser desfeita."
+      [buttons]="alertButtons"
+      (didDismiss)="isDeleteAlertOpen = false"
+    ></ion-alert>
+  </ion-content>
+</div>
