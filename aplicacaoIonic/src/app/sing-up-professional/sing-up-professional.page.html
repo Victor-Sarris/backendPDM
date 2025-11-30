@@ -1,38 +1,27 @@
 <ion-content [fullscreen]="true">
   <div class="page-wrapper">
     
-    <header class="top-header">
-      <div class="logo-container">
-        <img src="../../assets/icon/therapy-logo.png" alt="Therapy Logo">
-        <span>Therapy</span>
-      </div>
-      <nav class="top-nav">
-        <a routerLink="/role-selection">Faça Login</a>
-        <a routerLink="/">Home</a>
-      </nav>
-    </header>
-
     <div class="main-content">
       <div class="signup-card professional-card">
         <h2>Crie sua conta de Profissional</h2>
 
-        <form>
+        <form (ngSubmit)="submitForm()"> 
           <ion-grid>
             <ion-row>
-              
+
               <ion-col size="12" size-md="6" class="column-left">
                 <h3>Sobre Você</h3>
 
                 <ion-item lines="none" class="input-box">
-                  <ion-input label="Nome completo" labelPlacement="floating" type="text"></ion-input>
+                  <ion-input label="Nome completo" labelPlacement="floating" type="text" [(ngModel)]="formData.name" name="name" required></ion-input>
                 </ion-item>
 
                 <ion-item lines="none" class="input-box">
-                  <ion-input label="Email" labelPlacement="floating" type="email"></ion-input>
+                  <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="formData.professional_email" name="professional_email" required></ion-input>
                 </ion-item>
 
                 <ion-item lines="none" class="input-box">
-                  <ion-input label="Senha" labelPlacement="floating" type="password">
+                  <ion-input label="Senha" labelPlacement="floating" type="password" [(ngModel)]="formData.professional_password" name="professional_password" required>
                     <ion-icon slot="end" name="eye-off-outline"></ion-icon>
                   </ion-input>
                 </ion-item>
@@ -40,21 +29,21 @@
                 <ion-row>
                   <ion-col size="6" class="no-padding-start">
                     <ion-item lines="none" class="input-box">
-                      <ion-input label="Telefone" labelPlacement="floating" type="tel"></ion-input>
+                      <ion-input label="Telefone" labelPlacement="floating" type="tel" [(ngModel)]="formData.professional_phone" name="professional_phone" required></ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size="6" class="no-padding-end">
                     <ion-item lines="none" class="input-box">
-                      <ion-input label="CPF" labelPlacement="floating" type="text"></ion-input>
+                      <ion-input label="CPF" labelPlacement="floating" type="text" [(ngModel)]="formData.professional_cpf" name="professional_cpf" required></ion-input>
                     </ion-item>
                   </ion-col>
                 </ion-row>
 
                 <ion-item lines="none" class="input-box select-box">
-                  <ion-select label="Selecione seu gênero" labelPlacement="floating" interface="popover">
-                    <ion-select-option value="masculino">Masculino</ion-select-option>
-                    <ion-select-option value="feminino">Feminino</ion-select-option>
-                    <ion-select-option value="outro">Outro</ion-select-option>
+                  <ion-select label="Selecione seu gênero" labelPlacement="floating" interface="popover" [(ngModel)]="formData.professional_gender" name="professional_gender" required>
+                    <ion-select-option value="Masculino">Masculino</ion-select-option>
+                    <ion-select-option value="Feminino">Feminino</ion-select-option>
+                    <ion-select-option value="Outro">Outro</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -63,21 +52,26 @@
                 <h3>Sua Especialidade</h3>
 
                 <div class="specialty-buttons">
-                  <button type="button" class="spec-btn active">Psicólogo(a)</button>
-                  <button type="button" class="spec-btn">Psicanalista</button>
-                  <button type="button" class="spec-btn">Terapeuta</button>
+                  <button type="button" class="spec-btn" [class.active]="formData.specialty === 'Psicólogo(a)'"
+                    (click)="setSpecialty('Psicólogo(a)')">Psicólogo(a)</button>
+
+                  <button type="button" class="spec-btn" [class.active]="formData.specialty === 'Psicanalista'"
+                    (click)="setSpecialty('Psicanalista')">Psicanalista</button>
+
+                  <button type="button" class="spec-btn" [class.active]="formData.specialty === 'Terapeuta'"
+                    (click)="setSpecialty('Terapeuta')">Terapeuta</button>
                 </div>
 
                 <ion-item lines="none" class="input-box">
-                  <ion-input label="CRP" labelPlacement="floating" type="text"></ion-input>
+                  <ion-input label="CRP" labelPlacement="floating" type="text" [(ngModel)]="formData.crp" name="crp" required></ion-input>
                 </ion-item>
 
                 <ion-item lines="none" class="input-box">
-                  <ion-input label="Abordagem" labelPlacement="floating" type="text"></ion-input>
+                  <ion-input label="Abordagem" labelPlacement="floating" type="text" [(ngModel)]="formData.abordagem" name="abordagem" required></ion-input>
                 </ion-item>
 
                 <ion-item lines="none" class="input-box textarea-box">
-                  <ion-textarea label="Descrição" labelPlacement="floating" rows="4"></ion-textarea>
+                  <ion-textarea label="Descrição" labelPlacement="floating" rows="4" [(ngModel)]="formData.descricao" name="descricao" required></ion-textarea>
                 </ion-item>
               </ion-col>
 
@@ -91,7 +85,7 @@
                   </ion-checkbox>
                 </div>
 
-                <ion-button expand="block" class="submit-btn">
+                <ion-button expand="block" type="submit" (click)="submitForm()" class="submit-btn">
                   Criar Conta
                 </ion-button>
 
