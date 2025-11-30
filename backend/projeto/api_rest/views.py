@@ -53,10 +53,12 @@ def professional_login(request):
     if not email or not password:
         return Response({'message': 'Email e senha são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    try:
-        # Busca o profissional pelo email
-        professional = Professional.objects.get(professional_email=email)
-    except Professional.DoesNotExist:
+    # 🛑 CORREÇÃO: Usar filter().first() para evitar o erro MultipleObjectsReturned
+    # Se houver duplicatas, ele pega apenas o primeiro. Se não houver, retorna None.
+    professional = Professional.objects.filter(professional_email=email).first() # 👈 LINHA CORRIGIDA
+    
+    # Agora verificamos se o objeto existe e se a senha está correta
+    if not professional:
         return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
     
     # Verifica a senha hasheada
@@ -68,7 +70,6 @@ def professional_login(request):
         }, status=status.HTTP_200_OK)
     else:
         return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
-
 # ----------------------- API VIEW PARA O CLIENTE -----------------------
 @api_view(['GET'])
 def get_customer(request):

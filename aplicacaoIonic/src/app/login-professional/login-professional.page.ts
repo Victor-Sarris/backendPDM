@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http'; // Importar HttpClient
+import { HttpClient } from '@angular/common/http';
+
 import {
-  IonContent, // Estava faltando
+  IonContent,
   IonGrid,
   IonRow,
   IonCol,
-  IonItem, // Estava faltando
-  IonInput, // Estava faltando
-  IonButton, // Estava faltando
-  IonIcon, // Estava faltando
-  IonCheckbox // Estava faltando
+  IonItem,
+  IonInput,
+  IonButton,
+  IonIcon,
+  IonCheckbox
 } from '@ionic/angular/standalone';
+
 import { addIcons } from 'ionicons';
 import { heart, personOutline, lockClosedOutline } from 'ionicons/icons';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router'; // Importar Router
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-professional',
@@ -23,33 +25,35 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router'; // Impor
   styleUrls: ['./login-professional.page.scss'],
   standalone: true,
   imports: [
-    IonContent, // ✅ Adicionado
+    IonContent,
     CommonModule,
     FormsModule,
     IonGrid,
     IonRow,
     IonCol,
-    IonItem, // ✅ Adicionado
-    IonInput, // ✅ Adicionado
-    IonButton, // ✅ Adicionado
-    IonIcon, // ✅ Adicionado
-    IonCheckbox, // ✅ Adicionado
-    RouterLink
+    IonItem,
+    IonInput,
+    IonButton,
+    IonIcon,
+    IonCheckbox,
+    RouterLink,
   ],
 })
 export class LoginProfessionalPage implements OnInit {
 
-  email = '';
-  password = '';
+  email: string = '';
+  password: string = '';
 
-  // Injete o Router e o HttpClient
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
     addIcons({ heart, personOutline, lockClosedOutline });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  async loginProfessional() {
+  loginProfessional() {
     const loginData = {
       professional_email: this.email,
       professional_password: this.password,
@@ -57,32 +61,26 @@ export class LoginProfessionalPage implements OnInit {
 
     const API_URL = 'http://127.0.0.1:8000/api/professional/login/';
 
-    // 💡 Lógica de validação simples
     if (!this.email || !this.password) {
       alert('Preencha email e senha.');
       return;
     }
 
-    try {
-      // Envia a requisição POST para o endpoint de login
-      this.http.post(API_URL, loginData).subscribe({
-        next: (response) => {
-          console.log('Login bem-sucedido:', response);
-          // 🎯 Redirecionamento para o Dashboard do Profissional
-          this.router.navigate(['/professional-dash-board']);
-        },
-        error: (error) => {
-          let message = 'Credenciais inválidas.';
-          if (error.status === 400 && error.error && error.error.message) {
-            message = error.error.message;
-          }
-          console.error('Erro de Login:', error);
-          alert(message);
+    console.log('🔹 Enviando login do profissional:', loginData);
+
+    this.http.post(API_URL, loginData).subscribe({
+      next: (response: any) => {
+        console.log('✅ Login bem-sucedido:', response);
+        this.router.navigate(['/professional-dash-board']);
+      },
+      error: (error: any) => {
+        console.error('❌ Erro de Login:', error);
+        let message = 'Credenciais inválidas.';
+        if (error.status === 400 && error.error && error.error.message) {
+          message = error.error.message;
         }
-      });
-    } catch (error) {
-      console.error('Erro de Conexão:', error);
-      alert('Não foi possível conectar ao servidor. Tente novamente.');
-    }
+        alert(message);
+      },
+    });
   }
 }
