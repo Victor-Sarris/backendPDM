@@ -9,7 +9,65 @@ from .models import Customer, Professional
 from .serializers import CustomerSerializer, ProfessionalSerializer
 
 import json
+# 🚨 NOVAS IMPORTAÇÕES NECESSÁRIAS PARA O LOGIN SEGURO
+from django.contrib.auth.hashers import check_password, make_password
 
+# ----------------------- API VIEW PARA LOGIN DO CLIENTE -----------------------
+@api_view(['POST'])
+def customer_login(request):
+    """
+    Autentica um Cliente usando email e senha.
+    """
+    email = request.data.get('customer_email')
+    password = request.data.get('customer_password')
+
+    if not email or not password:
+        return Response({'message': 'Email e senha são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Busca o cliente pelo email
+        customer = Customer.objects.get(customer_email=email)
+    except Customer.DoesNotExist:
+        return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    # Verifica a senha hasheada
+    if check_password(password, customer.customer_password):
+        serializer = CustomerSerializer(customer)
+        return Response({
+            'message': 'Login de Cliente bem-sucedido.', 
+            'user': serializer.data
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+# ----------------------- API VIEW PARA LOGIN DO PROFISSIONAL -----------------------
+@api_view(['POST'])
+def professional_login(request):
+    """
+    Autentica um Profissional usando email e senha.
+    """
+    email = request.data.get('professional_email')
+    password = request.data.get('professional_password')
+
+    if not email or not password:
+        return Response({'message': 'Email e senha são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Busca o profissional pelo email
+        professional = Professional.objects.get(professional_email=email)
+    except Professional.DoesNotExist:
+        return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    # Verifica a senha hasheada
+    if check_password(password, professional.professional_password):
+        serializer = ProfessionalSerializer(professional)
+        return Response({
+            'message': 'Login de Profissional bem-sucedido.', 
+            'user': serializer.data
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # ----------------------- API VIEW PARA O CLIENTE -----------------------
 @api_view(['GET'])
@@ -68,7 +126,7 @@ def customer_manager(request):
         if serializers.is_valid():
             serializers.save()
             return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # editando os dados de um cliente
     if request.method == 'PUT':

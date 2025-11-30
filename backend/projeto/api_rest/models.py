@@ -5,7 +5,7 @@ class Customer(models.Model):
     customer_cpf = models.CharField(primary_key=True, max_length=11, default='')
     customer_gender = models.CharField(max_length=20, default='')
     customer_email = models.CharField(max_length=50, default='')
-    customer_password = models.CharField(max_length=12, default='')
+    customer_password = models.CharField(max_length=128, default='')
     customer_phone = models.CharField(max_length=11, default='')
     
     def __str__(self):
@@ -16,7 +16,7 @@ class Professional(models.Model):
     professional_cpf = models.CharField(max_length=11, default='')
     professional_gender = models.CharField(max_length=20, default='')
     professional_email = models.CharField(max_length=50, default='')
-    professional_password = models.CharField(max_length=12, default='')
+    professional_password = models.CharField(max_length=128, default='')
     professional_phone = models.CharField(max_length=11, default='')
     crp = models.CharField(max_length=7, default='')
     specialty = models.CharField(max_length=50, default='', blank=True)
