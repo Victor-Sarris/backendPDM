@@ -17,31 +17,32 @@
       <div class="signup-card">
         <h2>Crie sua conta</h2>
 
-        <form>
+        <form (ngSubmit)="submitForm()"> 
+          
           <ion-item lines="none" class="input-box">
-            <ion-input label="Nome completo" labelPlacement="floating" type="text"></ion-input>
+            <ion-input label="Nome completo" labelPlacement="floating" type="text" [(ngModel)]="formData.name" name="name" required></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="CPF" labelPlacement="floating" type="text" maxlength="14"></ion-input>
+            <ion-input label="CPF" labelPlacement="floating" type="text" maxlength="11" [(ngModel)]="formData.customer_cpf" name="customer_cpf" required></ion-input>
+            </ion-item>
+
+          <ion-item lines="none" class="input-box">
+            <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="formData.customer_email" name="customer_email" required></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="Email" labelPlacement="floating" type="email"></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="input-box">
-            <ion-input label="Senha" labelPlacement="floating" type="password">
+            <ion-input label="Senha" labelPlacement="floating" type="password" [(ngModel)]="formData.customer_password" name="customer_password" required>
               <ion-icon slot="end" name="eye-off-outline" aria-hidden="true"></ion-icon>
             </ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="Telefone" labelPlacement="floating" type="tel"></ion-input>
+            <ion-input label="Telefone" labelPlacement="floating" type="tel" [(ngModel)]="formData.customer_phone" name="customer_phone" required></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box select-box">
-            <ion-select label="Selecione seu gênero" labelPlacement="floating" interface="popover">
+            <ion-select label="Selecione seu gênero" labelPlacement="floating" interface="popover" [(ngModel)]="formData.customer_gender" name="customer_gender" required>
               <ion-select-option value="masculino">Masculino</ion-select-option>
               <ion-select-option value="feminino">Feminino</ion-select-option>
               <ion-select-option value="outro">Outro</ion-select-option>
@@ -49,7 +50,7 @@
             </ion-select>
           </ion-item>
 
-          <ion-button expand="block" class="submit-btn">
+          <ion-button expand="block" class="submit-btn" (click)="submitForm()"> 
             Criar Conta
           </ion-button>
 

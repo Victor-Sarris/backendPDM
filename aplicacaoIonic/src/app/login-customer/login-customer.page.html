@@ -17,12 +17,24 @@
       <form>
         <ion-item lines="full" class="custom-input">
           <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-input type="email" placeholder="Email" required></ion-input>
+          <ion-input 
+            type="email" 
+            placeholder="Email" 
+            [(ngModel)]="email" 
+            name="email" 
+            required>
+          </ion-input>
         </ion-item>
 
         <ion-item lines="full" class="custom-input">
           <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-input type="password" placeholder="Senha" required></ion-input>
+          <ion-input 
+            type="password" 
+            placeholder="Senha" 
+            [(ngModel)]="password" 
+            name="password" 
+            required>
+          </ion-input>
         </ion-item>
 
         <div class="options-row">
@@ -32,12 +44,17 @@
           <a class="forgot-link">Esqueceu a senha?</a>
         </div>
 
-        <ion-button expand="block" class="sign-in-btn"> Entrar </ion-button>
+        <ion-button 
+            expand="block" 
+            class="sign-in-btn"
+            (click)="loginCustomer()"> 
+            Entrar 
+        </ion-button>
 
         <div class="register-prompt">
           <p>
             Não tem uma conta?
-            <a routerLink="/sing-up-customer">Crie uma</a>
+            <a routerLink="/sing-up-customer">Crie uma Conta </a>
           </p>
         </div>
       </form>
