@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, 
-  IonGrid, 
-  IonRow, 
-  IonCol, 
-  IonItem, 
-  IonInput, 
-  IonButton, 
-  IonIcon, 
-  IonSelect, 
-  IonSelectOption 
+import {
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonIcon,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // 👈 Importação essencial
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 
@@ -34,69 +34,78 @@ interface CustomerFormData {
   styleUrls: ['./sing-up-customer.page.scss'],
   standalone: true,
   imports: [
-    IonContent, 
-    CommonModule, 
-    FormsModule, 
-    IonGrid, 
-    IonRow, 
+    IonContent,
+    CommonModule,
+    FormsModule,
+    IonGrid,
+    IonRow,
     IonCol,
-    IonItem, 
-    IonInput, 
-    IonButton, 
-    IonIcon, 
-    IonSelect, 
+    IonItem,
+    IonInput,
+    IonButton,
+    IonIcon,
+    IonSelect,
     IonSelectOption,
-    RouterLink
-  ]
+    RouterLink,
+  ],
 })
 export class SingUpCustomerPage implements OnInit {
-  
   formData: CustomerFormData = {
     name: '',
     customer_cpf: '',
     customer_gender: '',
     customer_email: '',
     customer_password: '',
-    customer_phone: ''
+    customer_phone: '',
   };
 
-  // Injete o Router e o HttpClient
-  constructor(private router: Router, private http: HttpClient) { 
+  // 🎯 Endpoint de Cadastro do Cliente (com IP e porta do backend)
+  private readonly API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/customer/';
+
+  constructor(private router: Router, private http: HttpClient) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
-  ngOnInit() {
-  }
-  
-  async submitForm() {
-    // 🎯 Endpoint de Cadastro do Cliente
-    const API_URL = 'http://127.0.0.1:8000/api/customer/';
+  ngOnInit() {}
 
+  submitForm() {
     // Lógica de validação básica
-    if (!this.formData.name || !this.formData.customer_email || !this.formData.customer_password) {
-        alert('Por favor, preencha nome, email e senha.');
-        return;
+    if (
+      !this.formData.name.trim() ||
+      !this.formData.customer_email.trim() ||
+      !this.formData.customer_password.trim()
+    ) {
+      alert('Por favor, preencha nome, email e senha.');
+      return;
     }
 
-    try {
-        // Envia a requisição POST para o backend
-        this.http.post(API_URL, this.formData).subscribe({
-            next: (response) => {
-                alert('Cadastro de Cliente realizado com sucesso! Faça login para acessar.');
-                // Redireciona para a tela de login do cliente
-                this.router.navigate(['/login-customer']); 
-            },
-            error: (error) => {
-                let errorMessage = 'Erro ao cadastrar cliente. Verifique seus dados.';
-                if (error.error && typeof error.error === 'object') {
-                    errorMessage = 'Erro de validação: ' + JSON.stringify(error.error);
-                }
-                console.error('Erro no cadastro de cliente:', error);
-                alert(errorMessage);
-            }
-        });
-    } catch (error) {
-        alert('Erro de conexão com o servidor. Tente novamente mais tarde.');
-    }
+    console.log('📤 Enviando cadastro de cliente:', this.formData);
+
+    this.http.post(this.API_URL, this.formData).subscribe({
+      next: (response: any) => {
+        console.log('✅ Cadastro de Cliente realizado:', response);
+        alert('Cadastro de Cliente realizado com sucesso! Faça login para acessar.');
+        this.router.navigate(['/login-customer']);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('❌ Erro no cadastro de cliente:', error);
+
+        // status 0 = erro de rede (não chegou no servidor)
+        if (error.status === 0) {
+          alert(
+            'Não foi possível conectar ao servidor.\n' +
+              'Verifique se o backend está ligado e se o celular está na mesma rede Wi-Fi.'
+          );
+          return;
+        }
+
+        let errorMessage = 'Erro ao cadastrar cliente. Verifique seus dados.';
+        if (error.error && typeof error.error === 'object') {
+          errorMessage = 'Erro de validação: ' + JSON.stringify(error.error);
+        }
+
+        alert(errorMessage);
+      },
+    });
   }
 }

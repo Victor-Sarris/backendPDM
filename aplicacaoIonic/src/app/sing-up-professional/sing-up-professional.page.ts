@@ -85,7 +85,7 @@ export class SingUpProfessionalPage implements OnInit {
   }
 
   async submitForm() {
-    const API_URL = 'http://127.0.0.1:8000/api/professional/';
+    const API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/';
 
     // 💡 Lógica de validação básica (aprimore no futuro)
     if (!this.formData.name || !this.formData.professional_password || !this.formData.crp) {

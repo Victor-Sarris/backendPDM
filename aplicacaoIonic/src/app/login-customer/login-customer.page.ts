@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http'; // 👈 Importação essencial
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   IonContent,
   IonHeader,
@@ -20,7 +20,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { heart, personOutline, lockClosedOutline } from 'ionicons/icons';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-customer',
@@ -44,57 +44,64 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
     IonText,
     IonIcon,
     IonCheckbox,
-    RouterLink
-],
+    RouterLink,
+  ],
 })
 export class LoginCustomerPage implements OnInit {
+  email: string = '';
+  password: string = '';
 
-  email = '';
-  password = '';
-  
-  // Injete o Router e o HttpClient
-  constructor(private router: Router, private http: HttpClient) { 
+  // TROCA AQUI SE UM DIA O IP MUDAR
+  private readonly API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/customer/login/';
+
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
     addIcons({ heart, personOutline, lockClosedOutline });
   }
 
   ngOnInit() {}
 
-  async loginCustomer() {
+  loginCustomer() {
+    // validação básica
+    if (!this.email.trim() || !this.password.trim()) {
+      alert('Preencha email e senha.');
+      return;
+    }
+
     const loginData = {
-      // ⚠️ Use os nomes de campo esperados pelo seu backend Django para o Cliente
       customer_email: this.email,
       customer_password: this.password,
     };
 
-    // 🎯 Endpoint de Login do Cliente
-    const API_URL = 'http://127.0.0.1:8000/api/customer/login/';
+    console.log('📤 Enviando login de cliente:', loginData);
 
-    // Lógica de validação simples
-    if (!this.email || !this.password) {
-        alert('Preencha email e senha.');
-        return;
-    }
-    
-    try {
-        // Envia a requisição POST para o endpoint de login
-        this.http.post(API_URL, loginData).subscribe({
-            next: (response) => {
-                console.log('Login de Cliente bem-sucedido:', response);
-                // Redirecionamento para o Dashboard do Cliente
-                this.router.navigate(['/customer-dash-board']); 
-            },
-            error: (error) => {
-                let message = 'Credenciais de Cliente inválidas.';
-                if (error.status === 400 && error.error && error.error.message) {
-                    message = error.error.message;
-                }
-                console.error('Erro de Login de Cliente:', error);
-                alert(message);
-            }
-        });
-    } catch (error) {
-        console.error('Erro de Conexão:', error);
-        alert('Não foi possível conectar ao servidor. Tente novamente.');
-    }
+    this.http.post(this.API_URL, loginData).subscribe({
+      next: (response: any) => {
+        console.log('✅ Login de Cliente bem-sucedido:', response);
+        // aqui você pode salvar o user se quiser
+        // localStorage.setItem('customer', JSON.stringify(response.user));
+        this.router.navigate(['/customer-dash-board']);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('❌ Erro de Login de Cliente:', error);
+
+        // status 0 = erro de rede (não chegou no servidor)
+        if (error.status === 0) {
+          alert(
+            'Não foi possível conectar ao servidor.\n' +
+            'Verifique se o backend está ligado e se o celular está na mesma rede Wi-Fi.'
+          );
+          return;
+        }
+
+        let message = 'Credenciais de Cliente inválidas.';
+        if (error.status === 400 && error.error && (error.error as any).message) {
+          message = (error.error as any).message;
+        }
+        alert(message);
+      },
+    });
   }
 }

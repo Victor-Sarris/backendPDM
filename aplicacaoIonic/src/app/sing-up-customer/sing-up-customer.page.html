@@ -1,12 +1,11 @@
 <ion-content [fullscreen]="true">
   <div class="page-wrapper">
-    
     <header class="top-header">
       <div class="logo-container">
-        <img src="../../assets/icon/therapy-logo.png" alt="Therapy Logo">
+        <img src="../../assets/icon/therapy-logo.png" alt="Therapy Logo" />
         <span>Therapy</span>
       </div>
-      
+
       <nav class="top-nav">
         <a routerLink="/role-selection">Faça Login</a>
         <a routerLink="/">Home</a>
@@ -17,49 +16,101 @@
       <div class="signup-card">
         <h2>Crie sua conta</h2>
 
-        <form (ngSubmit)="submitForm()"> 
-          
+        <!-- sem (ngSubmit), vamos disparar pelo botão -->
+        <form>
           <ion-item lines="none" class="input-box">
-            <ion-input label="Nome completo" labelPlacement="floating" type="text" [(ngModel)]="formData.name" name="name" required></ion-input>
+            <ion-input
+              label="Nome completo"
+              labelPlacement="floating"
+              type="text"
+              [(ngModel)]="formData.name"
+              name="name"
+              required
+            ></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="CPF" labelPlacement="floating" type="text" maxlength="11" [(ngModel)]="formData.customer_cpf" name="customer_cpf" required></ion-input>
-            </ion-item>
-
-          <ion-item lines="none" class="input-box">
-            <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="formData.customer_email" name="customer_email" required></ion-input>
+            <ion-input
+              label="CPF"
+              labelPlacement="floating"
+              type="text"
+              maxlength="11"
+              [(ngModel)]="formData.customer_cpf"
+              name="customer_cpf"
+              required
+            ></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="Senha" labelPlacement="floating" type="password" [(ngModel)]="formData.customer_password" name="customer_password" required>
+            <ion-input
+              label="Email"
+              labelPlacement="floating"
+              type="email"
+              [(ngModel)]="formData.customer_email"
+              name="customer_email"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-box">
+            <ion-input
+              label="Senha"
+              labelPlacement="floating"
+              type="password"
+              [(ngModel)]="formData.customer_password"
+              name="customer_password"
+              required
+            >
               <ion-icon slot="end" name="eye-off-outline" aria-hidden="true"></ion-icon>
             </ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box">
-            <ion-input label="Telefone" labelPlacement="floating" type="tel" [(ngModel)]="formData.customer_phone" name="customer_phone" required></ion-input>
+            <ion-input
+              label="Telefone"
+              labelPlacement="floating"
+              type="tel"
+              [(ngModel)]="formData.customer_phone"
+              name="customer_phone"
+              required
+            ></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="input-box select-box">
-            <ion-select label="Selecione seu gênero" labelPlacement="floating" interface="popover" [(ngModel)]="formData.customer_gender" name="customer_gender" required>
+            <ion-select
+              label="Selecione seu gênero"
+              labelPlacement="floating"
+              interface="popover"
+              [(ngModel)]="formData.customer_gender"
+              name="customer_gender"
+              required
+            >
               <ion-select-option value="masculino">Masculino</ion-select-option>
               <ion-select-option value="feminino">Feminino</ion-select-option>
               <ion-select-option value="outro">Outro</ion-select-option>
-              <ion-select-option value="prefiro-nao-dizer">Prefiro não dizer</ion-select-option>
+              <ion-select-option value="prefiro-nao-dizer"
+                >Prefiro não dizer</ion-select-option
+              >
             </ion-select>
           </ion-item>
 
-          <ion-button expand="block" class="submit-btn" (click)="submitForm()"> 
+          <ion-button
+            expand="block"
+            class="submit-btn"
+            type="button"
+            (click)="submitForm()"
+          >
             Criar Conta
           </ion-button>
 
           <div class="footer-prompt">
-            <p>Já possui uma conta? <a routerLink="/login-customer">Faça login</a></p>
+            <p>
+              Já possui uma conta?
+              <a routerLink="/login-customer">Faça login</a>
+            </p>
           </div>
         </form>
       </div>
     </div>
-
   </div>
 </ion-content>

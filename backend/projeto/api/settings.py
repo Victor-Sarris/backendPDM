@@ -17,10 +17,8 @@ SECRET_KEY = 'django-insecure-np$sukkvjsg*qw15t3vt&borvm7f9ij709=bu#y(x91&fu9cur
 # Durante o desenvolvimento pode ficar True
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-]
+# Em desenvolvimento vamos liberar tudo. Em produção, restrinja!
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -130,12 +128,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # (quando for pra produção, é melhor trocar por CORS_ALLOWED_ORIGINS)
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Se quiser restringir, comente a linha acima e use assim:
+# Se quiser restringir no futuro, comente a linha acima e use:
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:4200',
-#     'http://127.0.0.1:4200',
 #     'http://localhost:8100',
 #     'http://127.0.0.1:8100',
+#     'http://192.168.1.13:8100',  # Ionic na rede local
 # ]
 
 CORS_ALLOW_HEADERS = [
@@ -161,8 +158,10 @@ CORS_ALLOW_METHODS = [
 
 # CSRF – origens confiáveis (para formulários, se usar)
 CSRF_TRUSTED_ORIGINS = [
+     'https://untutelar-deloras-overreadily.ngrok-free.dev',
     'http://localhost:4200',
     'http://127.0.0.1:4200',
     'http://localhost:8100',
     'http://127.0.0.1:8100',
+    'http://192.168.1.13:8100',  # 👈 seu IP com a porta do Ionic
 ]

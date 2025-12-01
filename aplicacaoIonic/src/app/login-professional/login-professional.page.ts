@@ -59,7 +59,7 @@ export class LoginProfessionalPage implements OnInit {
       professional_password: this.password,
     };
 
-    const API_URL = 'http://127.0.0.1:8000/api/professional/login/';
+    const API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/login/';
 
     if (!this.email || !this.password) {
       alert('Preencha email e senha.');

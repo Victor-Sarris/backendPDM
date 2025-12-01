@@ -14,51 +14,54 @@
   <div class="main-content">
     <div class="login-card">
       <h2>Acesse nossa plataforma</h2>
+
       <form>
         <ion-item lines="full" class="custom-input">
           <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-input 
-            type="email" 
-            placeholder="Email" 
-            [(ngModel)]="email" 
-            name="email" 
-            required>
-          </ion-input>
+          <ion-input
+            type="email"
+            placeholder="Email"
+            required
+            [(ngModel)]="email"
+            name="email"
+          ></ion-input>
         </ion-item>
 
         <ion-item lines="full" class="custom-input">
           <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-input 
-            type="password" 
-            placeholder="Senha" 
-            [(ngModel)]="password" 
-            name="password" 
-            required>
-          </ion-input>
+          <ion-input
+            type="password"
+            placeholder="Senha"
+            required
+            [(ngModel)]="password"
+            name="password"
+          ></ion-input>
         </ion-item>
 
         <div class="options-row">
-          <ion-checkbox mode="md" labelPlacement="end"
-            >Lembrar de mim</ion-checkbox
-          >
+          <ion-checkbox mode="md" labelPlacement="end">
+            Lembrar de mim
+          </ion-checkbox>
           <a class="forgot-link">Esqueceu a senha?</a>
         </div>
 
-        <ion-button 
-            expand="block" 
-            class="sign-in-btn"
-            (click)="loginCustomer()"> 
-            Entrar 
+        <!-- 👇 AQUI: chama loginCustomer e NÃO é submit de form -->
+        <ion-button
+          expand="block"
+          class="sign-in-btn"
+          type="button"
+          (click)="loginCustomer()"
+        >
+          Entrar
         </ion-button>
 
         <div class="register-prompt">
           <p>
             Não tem uma conta?
-            <a routerLink="/sing-up-customer">Crie uma Conta </a>
+            <a routerLink="/sing-up-customer">Crie uma</a>
           </p>
         </div>
       </form>
     </div>
   </div>
-
 </ion-content>
