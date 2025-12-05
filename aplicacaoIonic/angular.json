@@ -34,7 +34,9 @@
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/particles.min.js"
+            ],
             "browser": "src/main.ts"
           },
           "configurations": {
@@ -108,7 +110,9 @@
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/particles.min.js"
+            ]
           },
           "configurations": {
             "ci": {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -19,6 +20,8 @@ import { addIcons } from 'ionicons';
 import { heart, personOutline, lockClosedOutline } from 'ionicons/icons';
 import { Router, RouterLink } from '@angular/router';
 
+declare var particlesJS: any
+
 @Component({
   selector: 'app-login-professional',
   templateUrl: './login-professional.page.html',
@@ -28,9 +31,6 @@ import { Router, RouterLink } from '@angular/router';
     IonContent,
     CommonModule,
     FormsModule,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonItem,
     IonInput,
     IonButton,
@@ -39,7 +39,7 @@ import { Router, RouterLink } from '@angular/router';
     RouterLink,
   ],
 })
-export class LoginProfessionalPage implements OnInit {
+export class LoginProfessionalPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
   email: string = '';
   password: string = '';
@@ -52,6 +52,33 @@ export class LoginProfessionalPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    // Um pequeno timeout garante que o HTML já renderizou o tamanho correto
+    setTimeout(() => {
+      this.initParticles();
+    }, 100);
+  }
+
+  ionViewWillLeave() {
+    const w: any = window;
+    // Verifica se existe uma instância de particles rodando e a destrói
+    if (w.pJSDom && w.pJSDom.length > 0) {
+      // Remove o listener e limpa o canvas para não pesar a memória
+      w.pJSDom[0].pJS.fn.vendors.destroypJS();
+      w.pJSDom = []; // Zera o array global da biblioteca
+    }
+  }
+
+  initParticles() {
+    // Verifica se o elemento existe antes de tentar carregar
+    const particlesDiv = document.getElementById('particles-login-professional');
+    if (particlesDiv) {
+      particlesJS.load('particles-login-professional', 'assets/particles.json', function () {
+        console.log('✨ Particles carregadas com sucesso!');
+      });
+    }
+  }
 
   loginProfessional() {
     const loginData = {
