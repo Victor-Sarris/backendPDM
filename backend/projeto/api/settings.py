@@ -158,10 +158,10 @@ CORS_ALLOW_METHODS = [
 
 # CSRF – origens confiáveis (para formulários, se usar)
 CSRF_TRUSTED_ORIGINS = [
-     'https://untutelar-deloras-overreadily.ngrok-free.dev',
+    'https://strangulable-masochistically-edyth.ngrok-free.dev ',
     'http://localhost:4200',
     'http://127.0.0.1:4200',
     'http://localhost:8100',
     'http://127.0.0.1:8100',
-    'http://192.168.1.13:8100',  # 👈 seu IP com a porta do Ionic
+    'http://10.9.131.164:8100/',  # 👈 seu IP com a porta do Ionic
 ]
