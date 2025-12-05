@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -28,6 +29,8 @@ interface CustomerFormData {
   customer_phone: string;
 }
 
+declare var particlesJS: any
+
 @Component({
   selector: 'app-sing-up-customer',
   templateUrl: './sing-up-customer.page.html',
@@ -37,9 +40,6 @@ interface CustomerFormData {
     IonContent,
     CommonModule,
     FormsModule,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonItem,
     IonInput,
     IonButton,
@@ -49,7 +49,7 @@ interface CustomerFormData {
     RouterLink,
   ],
 })
-export class SingUpCustomerPage implements OnInit {
+export class SingUpCustomerPage implements OnInit, ViewWillEnter, ViewWillLeave {
   formData: CustomerFormData = {
     name: '',
     customer_cpf: '',
@@ -67,6 +67,33 @@ export class SingUpCustomerPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    // Um pequeno timeout garante que o HTML já renderizou o tamanho correto
+    setTimeout(() => {
+      this.initParticles();
+    }, 100);
+  }
+
+  ionViewWillLeave() {
+    const w: any = window;
+    // Verifica se existe uma instância de particles rodando e a destrói
+    if (w.pJSDom && w.pJSDom.length > 0) {
+      // Remove o listener e limpa o canvas para não pesar a memória
+      w.pJSDom[0].pJS.fn.vendors.destroypJS();
+      w.pJSDom = []; // Zera o array global da biblioteca
+    }
+  }
+
+  initParticles() {
+    // Verifica se o elemento existe antes de tentar carregar
+    const particlesDiv = document.getElementById('particles-singup-customer');
+    if (particlesDiv) {
+      particlesJS.load('particles-singup-customer', 'assets/particles.json', function () {
+        console.log('✨ Particles carregadas com sucesso!');
+      });
+    }
+  }
 
   submitForm() {
     // Lógica de validação básica

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -33,6 +34,8 @@ interface ProfessionalFormData {
   descricao: string;
 }
 
+declare var particlesJS: any
+
 @Component({
   selector: 'app-sing-up-professional',
   templateUrl: './sing-up-professional.page.html',
@@ -56,7 +59,7 @@ interface ProfessionalFormData {
     RouterLink
   ]
 })
-export class SingUpProfessionalPage implements OnInit {
+export class SingUpProfessionalPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
   formData: ProfessionalFormData = {
     name: '',
@@ -77,6 +80,33 @@ export class SingUpProfessionalPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    // Um pequeno timeout garante que o HTML já renderizou o tamanho correto
+    setTimeout(() => {
+      this.initParticles();
+    }, 100);
+  }
+
+  ionViewWillLeave() {
+    const w: any = window;
+    // Verifica se existe uma instância de particles rodando e a destrói
+    if (w.pJSDom && w.pJSDom.length > 0) {
+      // Remove o listener e limpa o canvas para não pesar a memória
+      w.pJSDom[0].pJS.fn.vendors.destroypJS();
+      w.pJSDom = []; // Zera o array global da biblioteca
+    }
+  }
+
+  initParticles() {
+    // Verifica se o elemento existe antes de tentar carregar
+    const particlesDiv = document.getElementById('particles-singup-professional');
+    if (particlesDiv) {
+      particlesJS.load('particles-singup-professional', 'assets/particles.json', function () {
+        console.log('✨ Particles carregadas com sucesso!');
+      });
+    }
   }
 
   setSpecialty(specialty: string) {
