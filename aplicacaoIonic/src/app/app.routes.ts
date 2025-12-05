@@ -37,4 +37,8 @@ export const routes: Routes = [
     path: 'gestaoprontuarios',
     loadComponent: () => import('./gestaoprontuarios/gestaoprontuarios.page').then( m => m.GestaoprontuariosPage)
   },
+  {
+    path: 'meet-professional',
+    loadComponent: () => import('./meet-professional/meet-professional.page').then( m => m.MeetProfessionalPage)
+  },
 ];
