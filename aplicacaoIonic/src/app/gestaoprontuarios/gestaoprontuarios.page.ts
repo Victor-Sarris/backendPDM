@@ -2,57 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonMenuButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonSearchbar,
-  IonButton,
-  IonIcon,
-  IonCard,
-  IonCardContent,
-  IonBadge,
-  IonFooter,
-  IonItem,
-  IonList,
-  IonAvatar,
-  IonAlert,
-  ModalController,
-  IonMenu,
-  IonLabel,
-  IonRouterLink,
+  IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,
+  IonGrid, IonRow, IonCol, IonSearchbar, IonButton, IonIcon, IonCard,
+  IonBadge, IonItem, IonList, IonAvatar, IonAlert, ModalController,
+  IonMenu, IonLabel, IonRouterLink, LoadingController, ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  personOutline,
-  createOutline,
-  trashOutline,
-  addOutline,
-  eyeOutline,
-  chevronBackOutline,
-  chevronForwardOutline,
-  searchOutline,
-  gridOutline,
-  peopleOutline,
-  videocamOutline,
-  briefcaseOutline,
-  timeOutline,
-  calendarOutline,
-  chatbubblesOutline,
-  settingsOutline,
-  logOutOutline,
+  personOutline, createOutline, trashOutline, addOutline, eyeOutline,
+  chevronBackOutline, chevronForwardOutline, searchOutline, gridOutline,
+  peopleOutline, videocamOutline, briefcaseOutline, timeOutline,
+  calendarOutline, chatbubblesOutline, settingsOutline, logOutOutline
 } from 'ionicons/icons';
-import { Router, RouterLink } from '@angular/router'; // Adicionado RouterLink
-
-import {
-  PatientRecordModalComponent,
-  Patient,
-} from '../components/patient-record-modal/patient-record-modal.component';
+import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // IMPORTANTE
+import { PatientRecordModalComponent, Patient } from '../components/patient-record-modal/patient-record-modal.component';
 
 @Component({
   selector: 'app-gestaoprontuarios',
@@ -60,129 +24,41 @@ import {
   styleUrls: ['./gestaoprontuarios.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    IonButtons,
-    IonMenuButton,
-    IonSearchbar,
-    IonButton,
-    IonIcon,
-    IonCard,
-    IonBadge,
-    IonItem,
-    IonList,
-    IonAvatar,
-    IonAlert,
-    IonMenu,
-    IonLabel,
-    IonRouterLink,
-    RouterLink, 
+    CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar,
+    IonButtons, IonMenuButton, IonSearchbar, IonButton, IonIcon, IonCard,
+    IonBadge, IonItem, IonList, IonAvatar, IonAlert, IonMenu, IonLabel,
+    IonRouterLink, RouterLink,
   ],
 })
 export class GestaoprontuariosPage implements OnInit {
-  isDeleteAlertOpen = false;
-
-  public alertButtons = [
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-      handler: () => {
-        this.isDeleteAlertOpen = false;
-      },
-    },
-    {
-      text: 'Sim, excluir',
-      role: 'confirm',
-      handler: () => {
-        this.confirmDelete();
-      },
-    },
-  ];
+  
+  // Defina a URL da sua API aqui
+  private readonly API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/prontuario/';
 
   pacientes: Patient[] = [];
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
+  isDeleteAlertOpen = false;
   patientToDelete: Patient | null = null;
 
-
-  readonly MOCK_PACIENTES_INICIAL: Patient[] = [
-    {
-      id: 1,
-      nome: 'Ana Paula',
-      cpf: '123.456.789-00',
-      inicioTerapia: '2024-03-20',
-      status: 'Ativo',
-      templateId: 'default-psychological',
-      prontuarioData: {},
-      sessoes: [],
-    },
-    {
-      id: 2,
-      nome: 'Carlos Silva',
-      cpf: '987.654.321-00',
-      inicioTerapia: '2023-01-15',
-      status: 'Ativo',
-      templateId: 'default-psychological',
-      prontuarioData: {},
-      sessoes: [],
-    },
-    {
-      id: 3,
-      nome: 'Bruno Lima',
-      cpf: '111.222.333-44',
-      inicioTerapia: '2024-06-05',
-      status: 'Pendente',
-      templateId: 'custom-1',
-      prontuarioData: {},
-      sessoes: [],
-    },
-    {
-      id: 4,
-      nome: 'Daniela Costa',
-      cpf: '222.333.444-55',
-      inicioTerapia: '2024-07-10',
-      status: 'Ativo',
-      templateId: 'default-psychological',
-      prontuarioData: {},
-      sessoes: [],
-    },
-    {
-      id: 5,
-      nome: 'Eduardo Reis',
-      cpf: '333.444.555-66',
-      inicioTerapia: '2024-08-12',
-      status: 'Ativo',
-      templateId: 'default-psychological',
-      prontuarioData: {},
-      sessoes: [],
-    },
+  public alertButtons = [
+    { text: 'Cancelar', role: 'cancel', handler: () => { this.isDeleteAlertOpen = false; } },
+    { text: 'Sim, excluir', role: 'confirm', handler: () => { this.confirmDelete(); } },
   ];
 
-  constructor(private router: Router, private modalCtrl: ModalController) {
+  constructor(
+    private modalCtrl: ModalController,
+    private http: HttpClient,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {
     addIcons({
-      personOutline,
-      createOutline,
-      trashOutline,
-      addOutline,
-      eyeOutline,
-      chevronBackOutline,
-      chevronForwardOutline,
-      searchOutline,
-      gridOutline,
-      peopleOutline,
-      videocamOutline,
-      briefcaseOutline,
-      timeOutline,
-      calendarOutline,
-      chatbubblesOutline,
-      settingsOutline,
-      logOutOutline,
+      personOutline, createOutline, trashOutline, addOutline, eyeOutline,
+      chevronBackOutline, chevronForwardOutline, searchOutline, gridOutline,
+      peopleOutline, videocamOutline, briefcaseOutline, timeOutline,
+      calendarOutline, chatbubblesOutline, settingsOutline, logOutOutline,
     });
   }
 
@@ -190,29 +66,109 @@ export class GestaoprontuariosPage implements OnInit {
     this.loadPatients();
   }
 
-  loadPatients() {
-    const dadosSalvos = localStorage.getItem('therapy_pacientes');
-    if (dadosSalvos) {
-      this.pacientes = JSON.parse(dadosSalvos);
-    } else {
-      this.pacientes = [...this.MOCK_PACIENTES_INICIAL];
-      this.saveToStorage();
+  // --- CRUD COM A API ---
+
+  async loadPatients() {
+    const loading = await this.loadingCtrl.create({ message: 'Carregando...' });
+    await loading.present();
+
+    this.http.get<any[]>(this.API_URL).subscribe({
+      next: (data) => {
+        // Mapeia os dados do backend (snake_case) para o frontend se necessário
+        this.pacientes = data.map(item => ({
+          id: item.id,
+          nome: item.nome,
+          cpf: item.cpf,
+          status: item.status,
+          inicioTerapia: item.inicio_terapia, // Backend usa inicio_terapia
+          anotacoes: item.anotacoes,
+          templateId: 'default',
+          prontuarioData: {},
+          sessoes: []
+        }));
+        loading.dismiss();
+      },
+      error: (err) => {
+        console.error(err);
+        loading.dismiss();
+        this.showToast('Erro ao carregar prontuários.');
+      }
+    });
+  }
+
+  createPatient(patientData: Patient) {
+    // Prepara o objeto para o Backend
+    const payload = {
+      nome: patientData.nome,
+      cpf: patientData.cpf,
+      status: patientData.status,
+      inicio_terapia: patientData.inicioTerapia ? patientData.inicioTerapia.split('T')[0] : null,
+      anotacoes: patientData.anotacoes
+    };
+
+    this.http.post(this.API_URL, payload).subscribe({
+      next: () => {
+        this.showToast('Prontuário criado com sucesso!');
+        this.loadPatients(); // Recarrega a lista
+        this.currentPage = 1;
+      },
+      error: (err) => {
+        console.error(err);
+        this.showToast('Erro ao criar prontuário.');
+      }
+    });
+  }
+
+  updatePatient(patientData: Patient) {
+    const payload = {
+      id: patientData.id,
+      nome: patientData.nome,
+      cpf: patientData.cpf,
+      status: patientData.status,
+      inicio_terapia: patientData.inicioTerapia ? patientData.inicioTerapia.split('T')[0] : null,
+      anotacoes: patientData.anotacoes
+    };
+
+    this.http.put(this.API_URL, payload).subscribe({
+      next: () => {
+        this.showToast('Prontuário atualizado!');
+        this.loadPatients();
+      },
+      error: (err) => {
+        console.error(err);
+        this.showToast('Erro ao atualizar.');
+      }
+    });
+  }
+
+  confirmDelete() {
+    if (this.patientToDelete && this.patientToDelete.id) {
+      // Passando ID via query param ou body, dependendo da sua view.
+      // Na view que fiz acima, ela aceita query param também (?id=...)
+      const urlWithId = `${this.API_URL}?id=${this.patientToDelete.id}`;
+      
+      this.http.delete(urlWithId).subscribe({
+        next: () => {
+          this.showToast('Prontuário excluído.');
+          this.loadPatients();
+          this.isDeleteAlertOpen = false;
+          this.patientToDelete = null;
+        },
+        error: (err) => {
+          console.error(err);
+          this.showToast('Erro ao excluir.');
+          this.isDeleteAlertOpen = false;
+        }
+      });
     }
   }
 
-  saveToStorage() {
-    localStorage.setItem('therapy_pacientes', JSON.stringify(this.pacientes));
-  }
-
-  // --- LÓGICA DO MODAL (CREATE/UPDATE) ---
+  // --- Lógica de UI (Modais e Paginação) ---
 
   async openCreateModal() {
     const modal = await this.modalCtrl.create({
       component: PatientRecordModalComponent,
-      componentProps: {
-        mode: 'create',
-        patient: null,
-      },
+      componentProps: { mode: 'create', patient: null },
     });
 
     modal.onDidDismiss().then((result) => {
@@ -220,22 +176,17 @@ export class GestaoprontuariosPage implements OnInit {
         this.createPatient(result.data);
       }
     });
-
     await modal.present();
   }
 
   async handleEdit(id?: number | string) {
     if (!id) return;
-
     const patientToEdit = this.pacientes.find((p) => p.id === id);
     if (!patientToEdit) return;
 
     const modal = await this.modalCtrl.create({
       component: PatientRecordModalComponent,
-      componentProps: {
-        mode: 'edit',
-        patient: patientToEdit,
-      },
+      componentProps: { mode: 'edit', patient: patientToEdit },
     });
 
     modal.onDidDismiss().then((result) => {
@@ -243,41 +194,25 @@ export class GestaoprontuariosPage implements OnInit {
         this.updatePatient(result.data);
       }
     });
-
     await modal.present();
   }
 
-  createPatient(newPatientData: Patient) {
-    const newPatient: Patient = {
-      ...newPatientData,
-      id: Date.now(),
-      inicioTerapia: newPatientData.inicioTerapia
-        ? newPatientData.inicioTerapia.split('T')[0]
-        : new Date().toISOString().split('T')[0],
-    };
-
-    this.pacientes = [newPatient, ...this.pacientes];
-    this.saveToStorage();
-    this.currentPage = 1;
+  presentDeleteAlert(patient: Patient) {
+    this.patientToDelete = patient;
+    this.isDeleteAlertOpen = true;
   }
 
-  updatePatient(updatedData: Patient) {
-    const index = this.pacientes.findIndex((p) => p.id === updatedData.id);
-    if (index !== -1) {
-      const updatedList = [...this.pacientes];
-      updatedList[index] = {
-        ...updatedData,
-        inicioTerapia: updatedData.inicioTerapia
-          ? updatedData.inicioTerapia.split('T')[0]
-          : '',
-      };
-      this.pacientes = updatedList;
-      this.saveToStorage();
-    }
+  async showToast(msg: string) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'bottom',
+      color: 'dark'
+    });
+    toast.present();
   }
 
-  // --- Lógica de Filtro e Paginação ---
-
+  // Getters para paginação e busca
   get filteredPatients() {
     if (!this.searchTerm) return this.pacientes;
     const term = this.searchTerm.toLowerCase();
@@ -288,10 +223,7 @@ export class GestaoprontuariosPage implements OnInit {
 
   get paginatedPatients() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredPatients.slice(
-      startIndex,
-      startIndex + this.itemsPerPage
-    );
+    return this.filteredPatients.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   get totalPages() {
@@ -304,59 +236,28 @@ export class GestaoprontuariosPage implements OnInit {
   }
 
   get endResult() {
-    return Math.min(
-      this.currentPage * this.itemsPerPage,
-      this.filteredPatients.length
-    );
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredPatients.length);
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
-  }
-
+  nextPage() { if (this.currentPage < this.totalPages) this.currentPage++; }
+  prevPage() { if (this.currentPage > 1) this.currentPage--; }
+  
   handleSearch(event: any) {
     this.searchTerm = event.detail.value;
     this.currentPage = 1;
   }
 
   handleView(patient: Patient) {
-    console.log('Visualizar', patient);
-  }
-
-  presentDeleteAlert(patient: Patient) {
-    this.patientToDelete = patient;
-    this.isDeleteAlertOpen = true;
-  }
-
-  confirmDelete() {
-    if (this.patientToDelete && this.patientToDelete.id) {
-      this.pacientes = this.pacientes.filter(
-        (p) => p.id !== this.patientToDelete!.id
-      );
-      this.saveToStorage();
-      this.patientToDelete = null;
-
-      if (this.paginatedPatients.length === 0 && this.currentPage > 1) {
-        this.currentPage--;
-      }
-    }
-    this.isDeleteAlertOpen = false;
+    // Você pode criar um modal de visualização ou alert com as anotações
+    this.showToast(`Anotações: ${patient.anotacoes || 'Nenhuma'}`);
   }
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'Ativo':
-        return 'success';
-      case 'Pendente':
-        return 'warning';
-      case 'Inativo':
-        return 'medium';
-      default:
-        return 'primary';
+      case 'Ativo': return 'success';
+      case 'Pendente': return 'warning';
+      case 'Inativo': return 'medium';
+      default: return 'primary';
     }
   }
 }

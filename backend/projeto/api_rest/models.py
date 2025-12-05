@@ -25,3 +25,13 @@ class Professional(models.Model):
     
     def __str__(self):
         return f'Name: {self.name}, CPF: {self.professional_cpf}, Gender:{self.professional_gender}, Email: {self.professional_email}, Phone: {self.professional_phone}, CRP: {self.crp}, Specialty: {self.specialty}, Abordagem: {self.abordagem}, Descricao: {self.descricao}'
+
+class Prontuario(models.Model):
+    nome = models.CharField(max_length=100, default='')
+    cpf = models.CharField(max_length=14, default='')
+    status = models.CharField(max_length=50, default='Ativo')
+    inicio_terapia = models.DateField(null=True, blank=True)
+    anotacoes = models.CharField(blank=True, default='')
+    
+    def __str__(self):
+        return f'Paciente {self.nome}, Status: {self.status}'

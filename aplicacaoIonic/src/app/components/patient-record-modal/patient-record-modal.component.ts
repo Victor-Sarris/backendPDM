@@ -6,6 +6,9 @@ import {
   IonItem, IonInput, IonLabel, IonSelect, IonSelectOption, IonDatetime,
   IonModal, IonDatetimeButton, IonFooter, ModalController
 } from '@ionic/angular/standalone';
+import { 
+  IonTextarea 
+} from '@ionic/angular/standalone';
 
 // Esta interface DEVE estar aqui e ser exportada
 export interface Patient {
@@ -17,6 +20,7 @@ export interface Patient {
   templateId: string;
   prontuarioData: any;
   sessoes: any[];
+  anotacoes?: string;
 }
 
 @Component({
@@ -29,7 +33,7 @@ export interface Patient {
     FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, 
     IonItem, IonInput, IonLabel, IonSelect, IonSelectOption, IonDatetime,
-    IonModal, IonDatetimeButton, IonFooter
+    IonModal, IonDatetimeButton, IonFooter, IonTextarea
   ]
 })
 export class PatientRecordModalComponent implements OnInit {
@@ -49,6 +53,7 @@ export class PatientRecordModalComponent implements OnInit {
   };
 
   constructor(private modalCtrl: ModalController) {}
+  
 
   ngOnInit() {
     if (this.mode === 'edit' && this.patient) {
