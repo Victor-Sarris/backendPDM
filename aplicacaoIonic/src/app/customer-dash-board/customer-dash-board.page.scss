@@ -6,15 +6,16 @@ ion-col {
   padding: 20px;
 }
 
+ion-toolbar {
+  --background: blueviolet;
+}
+
 .content-menu {
   & p {
     background-color: #7c3aed;
     border-radius: 10px;
     padding: 20px;
   }
-}
-
-ion-menu {
 }
 
 ion-menu::part(backdrop) {
@@ -206,5 +207,40 @@ ion-chip {
   .profile-col {
     border-right: 1px solid #f0f0f0;
     padding-right: 20px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  ion-menu-button {
+    color: rgb(0, 0, 0);
+
+    & ion-title {
+      color: black;
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  ion-toolbar{
+    & ion-menu-button{
+      color: white;
+    }
+    & ion-title{
+      color: white;
+    }
+  }
+}
+
+@media(prefers-color-scheme: dark){
+  ion-menu{
+  }
+
+  ion-toolbar{
+    & ion-menu-button{
+      color: black;
+    }
+    & ion-title{
+      color: black;
+    }
   }
 }

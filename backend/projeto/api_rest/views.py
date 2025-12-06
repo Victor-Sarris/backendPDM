@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Customer, Professional
-from .serializers import CustomerSerializer, ProfessionalSerializer
+from .models import Customer, Professional, Prontuario
+from .serializers import CustomerSerializer, ProfessionalSerializer, ProntuarioSerializer
 
 import json
 # 🚨 NOVAS IMPORTAÇÕES NECESSÁRIAS PARA O LOGIN SEGURO
@@ -70,6 +70,7 @@ def professional_login(request):
         }, status=status.HTTP_200_OK)
     else:
         return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+    
 # ----------------------- API VIEW PARA O CLIENTE -----------------------
 @api_view(['GET'])
 def get_customer(request):
@@ -211,4 +212,55 @@ def professional_manager(request):
             professional_to_delete.delete()
             return Response(status=status.HTTP_202_ACCEPTED)
         except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+# ----------------------- API VIEW PARA O PRONTUÁRIO -----------------------
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def prontuario_manager(request):
+    if request.method == 'GET':
+        prontuario_id = request.GET.get('id')
+        
+        if prontuario_id:
+            try:
+                prontuario = Prontuario.objects.get(pk=prontuario_id)
+                serializer = ProntuarioSerializer(prontuario)
+                return Response(serializer.data)
+            except Prontuario.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            prontuarios = Prontuario.objects.all()
+            serializer = ProntuarioSerializer(prontuarios, many=True)
+            return Response(serializer.data)
+        
+    if request.method == 'POST':
+        new_prontuario = request.data
+        serializer = ProntuarioSerializer(data=new_prontuario)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'PUT':
+        prontuario_id = request.data.get('id')
+        try:
+            updated_prontuario = Prontuario.objects.get(pk=prontuario_id)
+        except Prontuario.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProntuarioSerializer(updated_prontuario, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'DELETE':
+        try:
+            prontuario_id = request.data.get('id') or request.GET.get('id')
+            prontuario_to_delete = Prontuario.objects.get(pk=prontuario_id)
+            prontuario_to_delete.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Prontuario.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)

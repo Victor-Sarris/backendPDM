@@ -7,6 +7,11 @@
   margin: 0 auto;
 }
 
+ion-toolbar {
+    background-color: blueviolet;
+  }
+
+
 /* Header da Seção */
 .section-header {
   display: flex;
@@ -180,5 +185,24 @@
   .pagination-footer {
     justify-content: center;
     text-align: center;
+  }
+}
+
+@media(prefers-color-scheme: dark){
+  ion-menu-button{
+    color: black;
+  }
+  ion-title {
+    color: black;
+  }
+}
+
+@media(prefers-color-scheme: light){
+  ion-menu-button{
+    color: white;
+  }
+
+  ion-title {
+    color: white;
   }
 }

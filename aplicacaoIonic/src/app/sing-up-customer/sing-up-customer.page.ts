@@ -60,7 +60,7 @@ export class SingUpCustomerPage implements OnInit, ViewWillEnter, ViewWillLeave 
   };
 
   // 🎯 Endpoint de Cadastro do Cliente (com IP e porta do backend)
-  private readonly API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/customer/';
+  private readonly API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/customer/';
 
   constructor(private router: Router, private http: HttpClient) {
     addIcons({ eyeOutline, eyeOffOutline });

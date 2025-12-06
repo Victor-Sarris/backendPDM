@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, Professional
+from .models import Customer, Professional, Prontuario
 from django.contrib.auth.hashers import make_password 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -21,3 +21,9 @@ class ProfessionalSerializer(serializers.ModelSerializer):
         if 'professional_password' in validated_data:
             validated_data['professional_password'] = make_password(validated_data['professional_password'])
         return super().create(validated_data)
+    
+class ProntuarioSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Prontuario
+        fields = '__all__'

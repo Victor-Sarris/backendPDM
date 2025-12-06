@@ -12,5 +12,8 @@ urlpatterns = [
 
     # Rotas de Login
     path('customer/login/', views.customer_login, name='customer_login'),
-    path('professional/login/', views.professional_login, name='professional_login')
+    path('professional/login/', views.professional_login, name='professional_login'),
+    
+    # Rota para o prontuario
+    path('prontuario/', views.prontuario_manager, name='prontuario_manager'),
 ]

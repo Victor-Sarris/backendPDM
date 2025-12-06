@@ -34,6 +34,7 @@ ion-content {
 }
 
 .mainContentHero {
+  color: white;
   font-size: 50px;
   font-weight: bold;
   & span {
@@ -46,10 +47,28 @@ ion-content {
   width: 300px;
   height: 300px;
   object-fit: contain;
-  animation: float 3s ease-in-out infinite;
+  animation: levitate 6s ease-in-out infinite;
+  
+  will-change: transform, filter;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    transform: translateY(-20px) scale(1.02);
+    filter: drop-shadow(0 25px 15px rgba(0, 0, 0, 0.15));
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.3));
+  }
 }
 
 .footerContentHero {
+  color: white;
   text-align: justify;
   font-size: 15px;
   padding: 20px;
@@ -141,6 +160,7 @@ ion-content {
 }
 
 .funcionalidadesMVP {
+  color: white;
   background-color: #191058;
   margin: 0;
   padding-top: 40px;
