@@ -22,7 +22,7 @@ class ProfessionalSerializer(serializers.ModelSerializer):
             validated_data['professional_password'] = make_password(validated_data['professional_password'])
         return super().create(validated_data)
     
-class ProntuarioSerializer(serializers.Serializer):
+class ProntuarioSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Prontuario
