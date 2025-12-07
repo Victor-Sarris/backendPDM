@@ -47,7 +47,7 @@ export class LoginCustomerPage implements OnInit, ViewWillEnter, ViewWillLeave {
   password: string = '';
 
   // TROCA AQUI SE UM DIA O IP MUDAR
-  private readonly API_URL = ' https://untutelar-deloras-overreadily.';
+  private readonly API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/customer/';
 
   constructor(private router: Router, private http: HttpClient) {
     addIcons({ heart, personOutline, lockClosedOutline });

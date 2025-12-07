@@ -145,6 +145,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'ngrok-skip-browser-warning'
 ]
 
 CORS_ALLOW_METHODS = [
@@ -158,7 +159,7 @@ CORS_ALLOW_METHODS = [
 
 # CSRF – origens confiáveis (para formulários, se usar)
 CSRF_TRUSTED_ORIGINS = [
-    'https://strangulable-masochistically-edyth.ngrok-free.dev ',
+    'https://untutelar-deloras-overreadily.ngrok-free.dev',
     'http://localhost:4200',
     'http://127.0.0.1:4200',
     'http://localhost:8100',

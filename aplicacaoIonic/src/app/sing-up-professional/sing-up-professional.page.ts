@@ -115,7 +115,7 @@ export class SingUpProfessionalPage implements OnInit, ViewWillEnter, ViewWillLe
   }
 
   async submitForm() {
-    const API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/';
+    const API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/';
 
     // 💡 Lógica de validação básica (aprimore no futuro)
     if (!this.formData.name || !this.formData.professional_password || !this.formData.crp) {

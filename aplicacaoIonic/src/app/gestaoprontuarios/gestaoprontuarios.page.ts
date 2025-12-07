@@ -15,7 +15,7 @@ import {
   calendarOutline, chatbubblesOutline, settingsOutline, logOutOutline
 } from 'ionicons/icons';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // IMPORTANTE
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PatientRecordModalComponent, Patient } from '../components/patient-record-modal/patient-record-modal.component';
 
 @Component({
@@ -31,7 +31,7 @@ import { PatientRecordModalComponent, Patient } from '../components/patient-reco
   ],
 })
 export class GestaoprontuariosPage implements OnInit {
-  
+
   // Defina a URL da sua API aqui
   private readonly API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/prontuario/';
 
@@ -72,29 +72,43 @@ export class GestaoprontuariosPage implements OnInit {
     const loading = await this.loadingCtrl.create({ message: 'Carregando...' });
     await loading.present();
 
-    this.http.get<any[]>(this.API_URL).subscribe({
-      next: (data) => {
-        // Mapeia os dados do backend (snake_case) para o frontend se necessário
-        this.pacientes = data.map(item => ({
-          id: item.id,
-          nome: item.nome,
-          cpf: item.cpf,
-          status: item.status,
-          inicioTerapia: item.inicio_terapia, // Backend usa inicio_terapia
-          anotacoes: item.anotacoes,
-          templateId: 'default',
-          prontuarioData: {},
-          sessoes: []
-        }));
-        loading.dismiss();
-      },
-      error: (err) => {
-        console.error(err);
-        loading.dismiss();
-        this.showToast('Erro ao carregar prontuários.');
-      }
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'ngrok-skip-browser-warning': 'true' 
+        })
+    };
+  
+    // ✅ CORREÇÃO: Passando o httpOptions como segundo parâmetro
+    this.http.get<any[]>(this.API_URL, httpOptions).subscribe({
+        next: (data) => {
+            console.log('Payload recebido:', data);
+
+            // 1. Garante que é um Array antes de tentar fazer map
+            const lista = Array.isArray(data) ? data : []; 
+
+            this.pacientes = lista.map((item: any): Patient => ({
+                id: item.id,
+                nome: item.nome,
+                cpf: item.cpf,
+                status: item.status || 'Ativo',
+                
+                inicioTerapia: item.inicio_terapia ? String(item.inicio_terapia).split('T')[0] : '',
+                anotacoes: item.anotacoes || '',
+
+                templateId: 'default',
+                prontuarioData: {},
+                sessoes: []
+            }));
+
+            loading.dismiss();
+        },
+        error: (err) => {
+            console.error('Erro na requisição:', err);
+            loading.dismiss();
+            this.showToast('Erro ao carregar prontuários.');
+        }
     });
-  }
+}
 
   createPatient(patientData: Patient) {
     // Prepara o objeto para o Backend
@@ -146,7 +160,7 @@ export class GestaoprontuariosPage implements OnInit {
       // Passando ID via query param ou body, dependendo da sua view.
       // Na view que fiz acima, ela aceita query param também (?id=...)
       const urlWithId = `${this.API_URL}?id=${this.patientToDelete.id}`;
-      
+
       this.http.delete(urlWithId).subscribe({
         next: () => {
           this.showToast('Prontuário excluído.');
@@ -241,7 +255,7 @@ export class GestaoprontuariosPage implements OnInit {
 
   nextPage() { if (this.currentPage < this.totalPages) this.currentPage++; }
   prevPage() { if (this.currentPage > 1) this.currentPage--; }
-  
+
   handleSearch(event: any) {
     this.searchTerm = event.detail.value;
     this.currentPage = 1;

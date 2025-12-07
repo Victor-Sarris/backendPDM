@@ -1,37 +1,44 @@
 from django.db import models
 
 class Customer(models.Model):
-    name = models.CharField(max_length =100, default='')
-    customer_cpf = models.CharField(primary_key=True, max_length=11, default='')
-    customer_gender = models.CharField(max_length=20, default='')
-    customer_email = models.CharField(max_length=50, default='')
-    customer_password = models.CharField(max_length=128, default='')
-    customer_phone = models.CharField(max_length=11, default='')
-    
+    # Deixe o Django criar o 'id' automaticamente
+    name = models.CharField(max_length=100)
+    customer_cpf = models.CharField(max_length=11, unique=True) # unique=True evita duplicatas
+    customer_gender = models.CharField(max_length=20, blank=True)
+    customer_email = models.EmailField(max_length=50, unique=True) # EmailField valida o formato
+    customer_password = models.CharField(max_length=128)
+    customer_phone = models.CharField(max_length=11)
+
     def __str__(self):
-        return f'Name: {self.name}, CPF: {self.customer_cpf}, Gender: {self.customer_gender}, Email: {self.customer_email}, Phone: {self.customer_phone}'
-    
+        return f'{self.name} ({self.customer_cpf})'
+
 class Professional(models.Model):
-    name = models.CharField(max_length =100, default='')
-    professional_cpf = models.CharField(max_length=11, default='')
-    professional_gender = models.CharField(max_length=20, default='')
-    professional_email = models.CharField(max_length=50, default='')
-    professional_password = models.CharField(max_length=128, default='')
-    professional_phone = models.CharField(max_length=11, default='')
-    crp = models.CharField(max_length=7, default='')
-    specialty = models.CharField(max_length=50, default='', blank=True)
-    abordagem = models.CharField(max_length=20, default='')
-    descricao = models.CharField(max_length=300, default='')
-    
+    name = models.CharField(max_length=100)
+    professional_cpf = models.CharField(max_length=11, unique=True)
+    professional_gender = models.CharField(max_length=20, blank=True)
+    professional_email = models.EmailField(max_length=50, unique=True)
+    professional_password = models.CharField(max_length=128)
+    professional_phone = models.CharField(max_length=11)
+    crp = models.CharField(max_length=7)
+    specialty = models.CharField(max_length=50, blank=True)
+    abordagem = models.CharField(max_length=20, blank=True)
+    descricao = models.TextField(max_length=300, blank=True) # TextField é melhor para descrições
+
     def __str__(self):
-        return f'Name: {self.name}, CPF: {self.professional_cpf}, Gender:{self.professional_gender}, Email: {self.professional_email}, Phone: {self.professional_phone}, CRP: {self.crp}, Specialty: {self.specialty}, Abordagem: {self.abordagem}, Descricao: {self.descricao}'
+        return f'Dr(a). {self.name} - CRP: {self.crp}'
 
 class Prontuario(models.Model):
-    nome = models.CharField(max_length=100, default='')
-    cpf = models.CharField(max_length=14, default='')
-    status = models.CharField(max_length=50, default='Ativo')
-    inicio_terapia = models.DateField(null=True, blank=True)
-    anotacoes = models.CharField(blank=True, default='')
+    # ✅ Adicionado blank=True para permitir que o campo venha vazio se necessário
+    nome = models.CharField(max_length=100, default='', blank=True)
     
+    # ✅ Adicionado blank=True e padronizado para 14 caracteres (formato com pontuação) ou 11 (apenas números)
+    cpf = models.CharField(max_length=14, default='', blank=True)
+    
+    status = models.CharField(max_length=50, default='Ativo', blank=True)
+    inicio_terapia = models.DateField(null=True, blank=True)
+    
+    # ✅ CORREÇÃO CRÍTICA: Mudado para TextField (não precisa de limite e aceita textos longos)
+    anotacoes = models.TextField(blank=True, default='')
+
     def __str__(self):
         return f'Paciente {self.nome}, Status: {self.status}'

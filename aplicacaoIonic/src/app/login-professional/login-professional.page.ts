@@ -86,7 +86,7 @@ export class LoginProfessionalPage implements OnInit, ViewWillEnter, ViewWillLea
       professional_password: this.password,
     };
 
-    const API_URL = ' https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/login/';
+    const API_URL = 'https://untutelar-deloras-overreadily.ngrok-free.dev/api/professional/login/';
 
     if (!this.email || !this.password) {
       alert('Preencha email e senha.');
